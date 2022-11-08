@@ -1,0 +1,94 @@
+commit 39db4d0028121d846be5f3883918b25c3a837c9b
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:11:10 2022 +0200
+
+    Delete file2, rename file1 to file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 07a715d0286588d781e49f53f1222eb94f854309
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:08:32 2022 +0200
+
+    Add file{1-3}
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 91d82883e7ba475245027e40c45529cb266b16ce
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:07:51 2022 +0200
+
+    Muutoksia
+
+ eka.txt    | 2 ++
+ kolmas.txt | 1 +
+ 2 files changed, 3 insertions(+)
+
+commit b5335f17e558059d5385363d3dc285fc9b4b9915
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:06:47 2022 +0200
+
+    Add stuff/stuff.md
+
+ stuff/stuff.md | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 8236872e9ee19026b93bdc40f8fc49003fd90516
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:06:26 2022 +0200
+
+    Add kolmas.txt
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit f8568d7eae0c997aeff7b527c4562673c64afdf2
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:05:44 2022 +0200
+
+    Rename tiedosto.txt to eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit ef3d680c6753c3c8d8fdfc134b44aea45139bc36
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:05:30 2022 +0200
+
+    Remove toinen.txt
+
+ toinen.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 1b5d8bffbe1897de19965b0379df8a34ba8bfd36
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:04:53 2022 +0200
+
+    Change tiedosto.txt
+
+ tiedosto.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 108a116746ccf70e83e10b2159cb3bc38d487cd9
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:03:27 2022 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit e564e823e63f1c919d0ff989c7c679fdc69a506b
+Author: Jukka Aho <ahojukka5@gmail.com>
+Date:   Tue Nov 8 20:02:32 2022 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)

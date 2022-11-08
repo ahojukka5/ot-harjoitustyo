@@ -1,0 +1,21 @@
+ahojukka@melkki:~$ tree
+.
+├── Desktop -> /home/ad/home/a/ahojukka/Desktop
+├── Documents -> /home/ad/home/a/ahojukka/Documents
+├── Downloads -> /home/ad/home/a/ahojukka/Downloads
+└── kurssit
+    └── ot2022
+        └── viikko1
+            └── unicafe
+                ├── poetry.lock
+                ├── pyproject.toml
+                └── src
+                    ├── index.py
+                    ├── kassapaate.py
+                    ├── maksukortti.py
+                    └── tests
+                        ├── __init__.py
+                        └── maksukortti_test.py
+
+9 directories, 7 files
+
