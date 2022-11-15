@@ -1,11 +1,7 @@
 # Ohjelmistotekniikka, harjoitustyö
 
-## Tehtävät
+Helsingin yliopiston ohjelmistotekniikan harjoitustyö. Syksy 2022.
 
-Hieman *GIT* **Harjoittelua**.
+[Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
 
-### Viikko 1
-
-[gitlog.txt](laskarit/viikko1/gitlog.txt)
-
-[komentorivi.txt](laskarit/viikko1/komentorivi.txt)
+[Työaikakirjanpito](dokmentaatio/tuntikirjanpito.md)
