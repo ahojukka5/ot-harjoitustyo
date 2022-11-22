@@ -1,6 +1,10 @@
-# Ohjelmistotekniikka, harjoitustyö
+# Saehaekkae - saehkoen saeaelimaetoen saeaestaejae
 
-Helsingin yliopiston ohjelmistotekniikan harjoitustyö. Syksy 2022.
+Saehaekkae (lue: "sähäkkä") on ohjelma, jonka tarkoituksena on pienentää
+käyttäjän sähkölaskua. Sovellus on Helsingin yliopiston ohjelmistotekniikan
+harjoitustyö.
+
+## Dokumentaatio
 
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
 
