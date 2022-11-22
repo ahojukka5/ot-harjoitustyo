@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-
 def get_cheapest_hour(database):
     cheapest_record = None
     cheapest_price = 2**32

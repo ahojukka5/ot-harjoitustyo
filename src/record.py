@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-
 class Record:
     def __init__(self, time, energy_price):
         self.time = time
