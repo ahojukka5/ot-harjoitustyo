@@ -1,3 +1,5 @@
 .pytest_cache
 .coverage
+.venv
+.vscode
 htmlcov
