@@ -8,3 +8,6 @@ class Record:
 
     def get_energy_price(self):
         return self.energy_price
+
+    def to_dict(self):
+        return {"time": self.get_time(), "energy_price": self.get_energy_price()}
