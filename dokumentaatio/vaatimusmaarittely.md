@@ -58,6 +58,9 @@ tapoja, esimerkiksi ohjata wifi-kellokytkimellä lämminvesivaraajan yöllä klo
 päälle sekä pyytää kännykkään muistutuksen, kun on aika laittaa pyykinpesukone
 päälle.
 
+- [x] käyttäjä voi tarkastella kuluvan päivän ja seuraavan päivän sähkön hintoja
+      graafisesti käyttöliittymästä
+
 ## Jatkokehitysideoita
 
 - automatiikka, joka valitsee esimerkiksi kolme halvinta tuntia ja toteuttaa
