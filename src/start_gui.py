@@ -9,7 +9,7 @@ matplotlib.use("TkAgg")
 
 
 class App(tk.Tk):
-    def __init__(self, source="test"):
+    def __init__(self, source="spot-hinta.fi"):
         super().__init__()
         data = datasources.fetch(source).to_dataframe()
         data.energy_price *= 100.0
