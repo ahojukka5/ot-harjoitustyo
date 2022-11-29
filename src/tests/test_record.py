@@ -11,3 +11,7 @@ class TestRecord(unittest.TestCase):
         record = Record(3, 20.0)
         self.assertEqual(3, record.get_time())
         self.assertEqual(20.0, record.get_energy_price())
+
+    def test_to_dict(self):
+        record = Record(3, 20.0)
+        self.assertEqual(20.0, record.to_dict()["energy_price"])
