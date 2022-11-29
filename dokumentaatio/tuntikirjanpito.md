@@ -6,4 +6,5 @@
 | 21.11. | 1    | projektirakenne    |
 | 22.11. | 5    | koodaus aloitettu  |
 | 28.11. | 2    | visualisointi      |
-| yht    | 9    |                    |
+| 29.11. | 4    | pylväsdiagrammi    |
+| yht    | 15   |                    |
