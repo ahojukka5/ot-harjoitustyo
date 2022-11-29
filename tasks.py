@@ -23,4 +23,4 @@ def coverage_report(ctx):
 
 @task
 def lint(ctx):
-    ctx.run("pylint --ignore=start_gui.py src", pty=True)
+    ctx.run("pylint --ignore=start_gui.py,tests src", pty=True)
