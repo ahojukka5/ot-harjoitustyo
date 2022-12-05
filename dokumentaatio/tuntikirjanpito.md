@@ -7,4 +7,5 @@
 | 22.11. | 5    | koodaus aloitettu  |
 | 28.11. | 2    | visualisointi      |
 | 29.11. | 4    | pylväsdiagrammi    |
+|  5.12. | 1    | datan lukeminen    |
 | yht    | 15   |                    |
