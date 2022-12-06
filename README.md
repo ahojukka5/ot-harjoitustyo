@@ -12,6 +12,6 @@ harjoitustyö.
 
 [Työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)
 
-[Release](releases/tag/viikko5)
+[Release](https://github.com/ahojukka5/ot-harjoitustyo/releases/tag/viikko5)
 
 [Changelog](dokumentaatio/changelog.md)
