@@ -12,4 +12,6 @@ harjoitustyö.
 
 [Työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)
 
+[Release](releases/tag/viikko5)
+
 [Changelog](dokumentaatio/changelog.md)
