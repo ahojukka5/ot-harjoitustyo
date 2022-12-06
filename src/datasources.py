@@ -1,8 +1,8 @@
-from database import Database
-from record import Record
-
 import pandas as pd
 import requests
+
+from database import Database
+from record import Record
 
 from tests import TEST_DATA
 
@@ -20,9 +20,9 @@ def fetch(source):
         for row in TEST_DATA:
             database.add_record(to_record(row))
         return database
-    elif source == "spot-hinta.fi":
+    if source == "spot-hinta.fi":
         url = "https://api.spot-hinta.fi/TodayAndDayForward"
-        for row in requests.get(url).json():
+        for row in requests.get(url, timeout=10).json():
             database.add_record(to_record(row))
         return database
 
