@@ -15,3 +15,8 @@
 - Toteutettu sähkön hinnan haku spot-hinta.fi -palvelusta
 - Lisätty linttaus (`poetry run invoke lint`)
 - Lisätty arkkitehtuurikuvaus
+
+# Viikko 5
+
+- Toteutettu tuntien valinta: käyttäjä voi pylväsdiagramin pylvästä klikkaamalla
+  valita potentiaaliset tunnit.
