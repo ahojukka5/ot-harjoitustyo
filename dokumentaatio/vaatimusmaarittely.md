@@ -60,6 +60,8 @@ päälle.
 
 - [x] käyttäjä voi tarkastella kuluvan päivän ja seuraavan päivän sähkön hintoja
       graafisesti käyttöliittymästä
+- [x] käyttäjä voi klikata pylväsdiagrammin pylvästä, jolloin kyseistä tuntia
+      visualivoida pylväs muuttuu punaiseksi ja tulee siten valituksi
 
 ## Jatkokehitysideoita
 
