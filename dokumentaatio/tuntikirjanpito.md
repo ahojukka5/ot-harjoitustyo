@@ -8,4 +8,5 @@
 | 28.11. | 2    | visualisointi      |
 | 29.11. | 4    | pylväsdiagrammi    |
 |  5.12. | 1    | datan lukeminen    |
-| yht    | 15   |                    |
+|  6.12. | 3    | datan valitseminen |
+| yht    | 18   |                    |
