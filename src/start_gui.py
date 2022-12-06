@@ -19,12 +19,19 @@ class App(tk.Tk):
         figure_canvas = FigureCanvasTkAgg(figure, self)
         # NavigationToolbar2Tk(figure_canvas, self)
         axes = figure.add_subplot()
-        data.energy_price.plot(kind="bar", ax=axes)
+        data.energy_price.plot(kind="bar", ax=axes, picker=True)
         axes.set_title("Pörssisähkön hinta tunneittain")
         axes.set_ylabel("Hinta (c/kWh)")
         figure.autofmt_xdate(rotation=45)
         figure.tight_layout()
         figure_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+        def onpick(event):
+            bar = event.artist
+            bar.set_fc("red")
+            figure.canvas.draw()
+
+        figure.canvas.mpl_connect("pick_event", onpick)
 
 
 def main():
