@@ -20,3 +20,10 @@
 
 - Toteutettu tuntien valinta: käyttäjä voi pylväsdiagramin pylvästä klikkaamalla
   valita potentiaaliset tunnit.
+
+# Viikko 6
+
+- Dokumentoitu kauttaaltaan docstringeillä.
+- Implementoitu fetcher käyttäjädatalle <oma.datahub.fi> palvelua ajatellen.
+- Implementoitu widget kulutusdatan visualisointiin.
+- Paranneltu pörssihinta-widgetin ulkoasua.
