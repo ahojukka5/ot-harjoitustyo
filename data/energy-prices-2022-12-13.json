@@ -1,0 +1,290 @@
+[
+  {
+    "Rank": 1,
+    "DateTime": "2022-12-13T00:00:00+02:00",
+    "PriceNoTax": 0.2000,
+    "PriceWithTax": 0.2200
+  },
+  {
+    "Rank": 6,
+    "DateTime": "2022-12-13T01:00:00+02:00",
+    "PriceNoTax": 0.2750,
+    "PriceWithTax": 0.3025
+  },
+  {
+    "Rank": 4,
+    "DateTime": "2022-12-13T02:00:00+02:00",
+    "PriceNoTax": 0.2605,
+    "PriceWithTax": 0.2866
+  },
+  {
+    "Rank": 3,
+    "DateTime": "2022-12-13T03:00:00+02:00",
+    "PriceNoTax": 0.2446,
+    "PriceWithTax": 0.2690
+  },
+  {
+    "Rank": 2,
+    "DateTime": "2022-12-13T04:00:00+02:00",
+    "PriceNoTax": 0.2431,
+    "PriceWithTax": 0.2674
+  },
+  {
+    "Rank": 5,
+    "DateTime": "2022-12-13T05:00:00+02:00",
+    "PriceNoTax": 0.2722,
+    "PriceWithTax": 0.2994
+  },
+  {
+    "Rank": 8,
+    "DateTime": "2022-12-13T06:00:00+02:00",
+    "PriceNoTax": 0.3069,
+    "PriceWithTax": 0.3376
+  },
+  {
+    "Rank": 7,
+    "DateTime": "2022-12-13T07:00:00+02:00",
+    "PriceNoTax": 0.30,
+    "PriceWithTax": 0.3300
+  },
+  {
+    "Rank": 13,
+    "DateTime": "2022-12-13T08:00:00+02:00",
+    "PriceNoTax": 0.4997,
+    "PriceWithTax": 0.5497
+  },
+  {
+    "Rank": 18,
+    "DateTime": "2022-12-13T09:00:00+02:00",
+    "PriceNoTax": 0.5499,
+    "PriceWithTax": 0.6049
+  },
+  {
+    "Rank": 20,
+    "DateTime": "2022-12-13T10:00:00+02:00",
+    "PriceNoTax": 0.5533,
+    "PriceWithTax": 0.6086
+  },
+  {
+    "Rank": 16,
+    "DateTime": "2022-12-13T11:00:00+02:00",
+    "PriceNoTax": 0.5181,
+    "PriceWithTax": 0.5699
+  },
+  {
+    "Rank": 14,
+    "DateTime": "2022-12-13T12:00:00+02:00",
+    "PriceNoTax": 0.5052,
+    "PriceWithTax": 0.5557
+  },
+  {
+    "Rank": 12,
+    "DateTime": "2022-12-13T13:00:00+02:00",
+    "PriceNoTax": 0.4828,
+    "PriceWithTax": 0.5311
+  },
+  {
+    "Rank": 15,
+    "DateTime": "2022-12-13T14:00:00+02:00",
+    "PriceNoTax": 0.5060,
+    "PriceWithTax": 0.5566
+  },
+  {
+    "Rank": 19,
+    "DateTime": "2022-12-13T15:00:00+02:00",
+    "PriceNoTax": 0.5527,
+    "PriceWithTax": 0.6080
+  },
+  {
+    "Rank": 21,
+    "DateTime": "2022-12-13T16:00:00+02:00",
+    "PriceNoTax": 0.5702,
+    "PriceWithTax": 0.6273
+  },
+  {
+    "Rank": 22,
+    "DateTime": "2022-12-13T17:00:00+02:00",
+    "PriceNoTax": 0.59,
+    "PriceWithTax": 0.6490
+  },
+  {
+    "Rank": 24,
+    "DateTime": "2022-12-13T18:00:00+02:00",
+    "PriceNoTax": 0.6650,
+    "PriceWithTax": 0.7315
+  },
+  {
+    "Rank": 23,
+    "DateTime": "2022-12-13T19:00:00+02:00",
+    "PriceNoTax": 0.5959,
+    "PriceWithTax": 0.6555
+  },
+  {
+    "Rank": 17,
+    "DateTime": "2022-12-13T20:00:00+02:00",
+    "PriceNoTax": 0.5226,
+    "PriceWithTax": 0.5748
+  },
+  {
+    "Rank": 11,
+    "DateTime": "2022-12-13T21:00:00+02:00",
+    "PriceNoTax": 0.4525,
+    "PriceWithTax": 0.4977
+  },
+  {
+    "Rank": 10,
+    "DateTime": "2022-12-13T22:00:00+02:00",
+    "PriceNoTax": 0.3538,
+    "PriceWithTax": 0.3892
+  },
+  {
+    "Rank": 9,
+    "DateTime": "2022-12-13T23:00:00+02:00",
+    "PriceNoTax": 0.3210,
+    "PriceWithTax": 0.3531
+  },
+  {
+    "Rank": 5,
+    "DateTime": "2022-12-14T00:00:00+02:00",
+    "PriceNoTax": 0.2831,
+    "PriceWithTax": 0.3114
+  },
+  {
+    "Rank": 3,
+    "DateTime": "2022-12-14T01:00:00+02:00",
+    "PriceNoTax": 0.2719,
+    "PriceWithTax": 0.2991
+  },
+  {
+    "Rank": 2,
+    "DateTime": "2022-12-14T02:00:00+02:00",
+    "PriceNoTax": 0.2705,
+    "PriceWithTax": 0.2975
+  },
+  {
+    "Rank": 1,
+    "DateTime": "2022-12-14T03:00:00+02:00",
+    "PriceNoTax": 0.2687,
+    "PriceWithTax": 0.2956
+  },
+  {
+    "Rank": 4,
+    "DateTime": "2022-12-14T04:00:00+02:00",
+    "PriceNoTax": 0.278,
+    "PriceWithTax": 0.3058
+  },
+  {
+    "Rank": 6,
+    "DateTime": "2022-12-14T05:00:00+02:00",
+    "PriceNoTax": 0.3000,
+    "PriceWithTax": 0.3300
+  },
+  {
+    "Rank": 7,
+    "DateTime": "2022-12-14T06:00:00+02:00",
+    "PriceNoTax": 0.3112,
+    "PriceWithTax": 0.3423
+  },
+  {
+    "Rank": 9,
+    "DateTime": "2022-12-14T07:00:00+02:00",
+    "PriceNoTax": 0.3688,
+    "PriceWithTax": 0.4057
+  },
+  {
+    "Rank": 12,
+    "DateTime": "2022-12-14T08:00:00+02:00",
+    "PriceNoTax": 0.4950,
+    "PriceWithTax": 0.5445
+  },
+  {
+    "Rank": 18,
+    "DateTime": "2022-12-14T09:00:00+02:00",
+    "PriceNoTax": 0.5400,
+    "PriceWithTax": 0.5940
+  },
+  {
+    "Rank": 23,
+    "DateTime": "2022-12-14T10:00:00+02:00",
+    "PriceNoTax": 0.5697,
+    "PriceWithTax": 0.6267
+  },
+  {
+    "Rank": 21,
+    "DateTime": "2022-12-14T11:00:00+02:00",
+    "PriceNoTax": 0.5652,
+    "PriceWithTax": 0.6217
+  },
+  {
+    "Rank": 22,
+    "DateTime": "2022-12-14T12:00:00+02:00",
+    "PriceNoTax": 0.5680,
+    "PriceWithTax": 0.6248
+  },
+  {
+    "Rank": 16,
+    "DateTime": "2022-12-14T13:00:00+02:00",
+    "PriceNoTax": 0.5261,
+    "PriceWithTax": 0.5787
+  },
+  {
+    "Rank": 14,
+    "DateTime": "2022-12-14T14:00:00+02:00",
+    "PriceNoTax": 0.5157,
+    "PriceWithTax": 0.5673
+  },
+  {
+    "Rank": 13,
+    "DateTime": "2022-12-14T15:00:00+02:00",
+    "PriceNoTax": 0.5150,
+    "PriceWithTax": 0.5664
+  },
+  {
+    "Rank": 17,
+    "DateTime": "2022-12-14T16:00:00+02:00",
+    "PriceNoTax": 0.5285,
+    "PriceWithTax": 0.5814
+  },
+  {
+    "Rank": 19,
+    "DateTime": "2022-12-14T17:00:00+02:00",
+    "PriceNoTax": 0.545,
+    "PriceWithTax": 0.5995
+  },
+  {
+    "Rank": 24,
+    "DateTime": "2022-12-14T18:00:00+02:00",
+    "PriceNoTax": 0.59,
+    "PriceWithTax": 0.6490
+  },
+  {
+    "Rank": 20,
+    "DateTime": "2022-12-14T19:00:00+02:00",
+    "PriceNoTax": 0.557,
+    "PriceWithTax": 0.6127
+  },
+  {
+    "Rank": 15,
+    "DateTime": "2022-12-14T20:00:00+02:00",
+    "PriceNoTax": 0.5206,
+    "PriceWithTax": 0.5726
+  },
+  {
+    "Rank": 11,
+    "DateTime": "2022-12-14T21:00:00+02:00",
+    "PriceNoTax": 0.4879,
+    "PriceWithTax": 0.5367
+  },
+  {
+    "Rank": 10,
+    "DateTime": "2022-12-14T22:00:00+02:00",
+    "PriceNoTax": 0.3967,
+    "PriceWithTax": 0.4363
+  },
+  {
+    "Rank": 8,
+    "DateTime": "2022-12-14T23:00:00+02:00",
+    "PriceNoTax": 0.3517,
+    "PriceWithTax": 0.3869
+  }
+]
