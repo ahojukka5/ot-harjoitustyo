@@ -13,7 +13,12 @@ ENERGY_CONSUMPTION_FILE = "data/energy-consumption.csv"
 ```
 
 `ENERGY_PRICE_SOURCE` voi saada arvot `test`, `local` ja `internet`.
-`ENERGY_CONSUMPTION_SOURCE` arvon `test`.
+`ENERGY_CONSUMPTION_SOURCE` arvon `test`. Oletusarvoisesti nämä ovat kaikki
+`test`, jolloin ohjelma ei lataa mitään netistä eikä näytä siis ajantasaista
+tietoa. Todennäköisesti käyttäjä haluaa laittaa `ENERGY_PRICE_SOURCE = internet`
+jolloin hintatiedot haetaan netistä, ja `ENERGY_CONSUMPTION_SOURCE = local` sekä
+ladata <oma.datahub.fi>-palvelusta kulutustietonsa csv-muodossa ja sijoittaa ne
+vaikkapa tiedostoon `data/energy-consumption.csv`.
 
 ## Ohjelman käynnistäminen
 
