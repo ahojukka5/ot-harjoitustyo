@@ -62,6 +62,13 @@ päälle.
       graafisesti käyttöliittymästä
 - [x] käyttäjä voi klikata pylväsdiagrammin pylvästä, jolloin kyseistä tuntia
       visualivoida pylväs muuttuu punaiseksi ja tulee siten valituksi
+- [ ] käyttäjä voi pylväiden valinnan jälkeen klikata "ajasta" tmv nappulaa, joka
+      aktivoi viestin lähetyksen lähiverkkoon (mikäli viestiä ei voida lähettää
+      näytetään se ruudulla)
+- [x] käyttäjä voi ladata oma.datahub.fi palvelusta kulutustiedot ja ladata ne
+      ohjelmaan sekä seurata aiempaa kulutushistoriaa
+- [ ] käyttäjä voi verrata sähkön historiallista hintaa ja kulutusta vierekkäin
+      ja todeta että onko hinnan optimointi ollut onnistunutta vai ei
 
 ## Jatkokehitysideoita
 
