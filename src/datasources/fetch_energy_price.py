@@ -1,4 +1,4 @@
-"""Fetching tools to collect data.
+"""Fetching tools to collect energy price data.
 
 This module contains functions to fetch data from internet sources to the
 database.
@@ -9,6 +9,11 @@ Typical usage example:
 
 As a result, a new database object is returned, containing data from source
 "test".
+
+Some sources might need configurations, for example, local data source needs
+the name of the file and fetching from internet requires url from where to
+fetch. Those options are given in `settings.py` and can be overridden with
+environment variables.
 """
 
 import pandas as pd
@@ -22,7 +27,6 @@ from tests import TEST_DATA
 import settings
 
 
-# internally used function, undocumented
 def _to_record(row):
     time = pd.to_datetime(row["DateTime"]).to_pydatetime()
     price = row["PriceNoTax"]
@@ -48,8 +52,8 @@ def _fetch_local(database):
     return database
 
 
-def fetch(source):
-    """Fetch price data from internet or local source.
+def fetch_energy_price(source):
+    """Fetch energy price data from internet or from a local source.
 
     Args:
         source (str): either "test" or "internet" or "local"
