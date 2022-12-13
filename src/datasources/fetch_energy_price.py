@@ -16,9 +16,9 @@ fetch. Those options are given in `settings.py` and can be overridden with
 environment variables.
 """
 
+import json
 import pandas as pd
 import requests
-import json
 
 from database import Database
 from record import Record
@@ -47,8 +47,9 @@ def _fetch_internet(database):
 
 
 def _fetch_local(database):
-    for row in json.load(open(settings.ENERGY_PRICE_FILE)):
-        database.add_record(_to_record(row))
+    with open(settings.ENERGY_PRICE_FILE, encoding="utf8") as fid:
+        for row in json.load(fid):
+            database.add_record(_to_record(row))
     return database
 
 
