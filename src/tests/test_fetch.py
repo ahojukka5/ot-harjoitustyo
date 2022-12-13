@@ -1,12 +1,12 @@
 import unittest
-from datasources import fetch
+from datasources import fetch_energy_price
 
 import pandas as pd
 
 
 class TestRecord(unittest.TestCase):
     def test_fetch_test_data(self):
-        data = fetch("test").to_dataframe()
+        data = fetch_energy_price("test").to_dataframe()
         first_row = data.iloc[0]
         print(first_row)
         self.assertEqual(0.1563, first_row["energy_price"])
