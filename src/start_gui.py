@@ -7,20 +7,54 @@ import matplotlib
 from datasources import fetch_energy_price, fetch_energy_consumption
 import settings
 
+import seaborn as sns
+import pandas as pd
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.dates import DateFormatter
 
+sns.set_theme()
 matplotlib.use("TkAgg")
+
+
+def _extended(data):
+    lastrow = pd.DataFrame(
+        index=[data.index[-1] + pd.Timedelta("1h")],
+        data=data.tail(1).values,
+        columns=data.columns,
+    )
+    return pd.concat([data, lastrow])
+
+
+def format_date(data, _):
+    text = DateFormatter("%H").format_data(data)
+    if text == "00":
+        text = DateFormatter("%H\n%Y-%m-%d").format_data(data)
+    return text
 
 
 def create_scheduling_widget(tab, data):
 
-    figure = Figure(figsize=(18, 8), dpi=100)
+    edata = _extended(data).tz_localize(None)
+    price = edata["energy_price"]
+
+    figure = Figure(figsize=(8, 4), dpi=100)
     axes = figure.add_subplot()
-    data.energy_price.plot(kind="bar", ax=axes, picker=True)
+
+    axes.step(price.index, price, where="post")
+    axes.fill_between(price.index, price, step="post", alpha=0.2)
     axes.set_title("Pörssisähkön hinta tunneittain")
     axes.set_ylabel("Hinta (c/kWh)")
-    figure.autofmt_xdate(rotation=45)
+
+    axes.xaxis.set_major_formatter(format_date)
+    axes.xaxis.set_major_locator(matplotlib.dates.HourLocator(interval=3))
+
+    xmin, xmax = price.index[0], price.index[-1]
+    ymin, ymax = 0, axes.get_ylim()[1]
+    now = pd.Timestamp.now()
+    axes.set_ylim(ymin, ymax)
+    axes.vlines(now, ymin, ymax)
+    axes.set_xlim(xmin, xmax)
     figure.tight_layout()
 
     figure_canvas = FigureCanvasTkAgg(figure, tab)
