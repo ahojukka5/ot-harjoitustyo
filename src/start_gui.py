@@ -1,3 +1,6 @@
+"""Graphical interface of saehaekkae.
+"""
+
 import tkinter as tk
 import matplotlib
 import datasources
@@ -9,6 +12,8 @@ matplotlib.use("TkAgg")
 
 
 class App(tk.Tk):
+    """The main Tk app."""
+
     def __init__(self, source="spot-hinta.fi"):
         super().__init__()
         data = datasources.fetch(source).to_dataframe()
