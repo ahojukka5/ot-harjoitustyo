@@ -9,6 +9,7 @@ As a result, a new database object is returned, containing data from source
 """
 
 import pandas as pd
+import settings
 from database import Database
 from record import Record
 from tests import TEST_DATA_ENERGY_CONSUMPTION
@@ -27,16 +28,32 @@ def _fetch_test(database):
     return database
 
 
+def _fetch_local(database, consumption_file=settings.ENERGY_CONSUMPTION_FILE):
+    data = pd.read_csv(
+        consumption_file,
+        delimiter=";",
+        decimal=",",
+        index_col=4,
+        parse_dates=True,
+    ).tz_convert("Europe/Helsinki")
+    for idx, row in data.tail(3 * 24).iterrows():
+        time = pd.to_datetime(str(idx)).to_pydatetime()
+        amount = row["Määrä"]
+        record = Record(time, amount)
+        database.add_record(record)
+    return database
+
+
 def fetch_energy_consumption(source):
     """Fetch energy consumption data from internet or from a local source.
 
     Args:
-        source (str): either "test" or "internet" or "local"
+        source (str): either "test" or "local"
 
     Returns:
         Database: populated with data
     """
-    if source not in ("test", "internet", "local"):
+    if source not in ("test", "local"):
         raise NotImplementedError(f"Unknown source {source}")
-    fetcher = {"test": _fetch_test}
+    fetcher = {"test": _fetch_test, "local": _fetch_local}
     return fetcher[source](Database())
