@@ -13,11 +13,13 @@ As a result, a new database object is returned, containing data from source
 
 import pandas as pd
 import requests
+import json
 
 from database import Database
 from record import Record
 
 from tests import TEST_DATA
+import settings
 
 
 # internally used function, undocumented
@@ -28,24 +30,34 @@ def _to_record(row):
     return record
 
 
+def _fetch_test(database):
+    for row in TEST_DATA:
+        database.add_record(_to_record(row))
+    return database
+
+
+def _fetch_internet(database):
+    for row in requests.get(settings.ENERGY_PRICE_URI, timeout=10).json():
+        database.add_record(_to_record(row))
+    return database
+
+
+def _fetch_local(database):
+    for row in json.load(open(settings.ENERGY_PRICE_FILE)):
+        database.add_record(_to_record(row))
+    return database
+
+
 def fetch(source):
-    """Fetch price data from internet source.
+    """Fetch price data from internet or local source.
 
     Args:
-        source (str): either "test" or "spot-hinta.fi"
+        source (str): either "test" or "internet" or "local"
 
     Returns:
         Database: populated with data
     """
-    database = Database()
-    if source == "test":
-        for row in TEST_DATA:
-            database.add_record(_to_record(row))
-        return database
-    if source == "spot-hinta.fi":
-        url = "https://api.spot-hinta.fi/TodayAndDayForward"
-        for row in requests.get(url, timeout=10).json():
-            database.add_record(_to_record(row))
-        return database
-
-    raise NotImplementedError(f"data source {source} not implemented")
+    if source not in ("test", "internet", "local"):
+        raise NotImplementedError(f"Unknown source {source}")
+    fetcher = {"test": _fetch_test, "internet": _fetch_internet, "local": _fetch_local}
+    return fetcher[source](Database())
