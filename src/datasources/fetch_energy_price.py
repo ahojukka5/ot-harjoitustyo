@@ -23,20 +23,20 @@ import json
 from database import Database
 from record import Record
 
-from tests import TEST_DATA
+from tests import TEST_DATA_ENERGY_PRICE
 import settings
 
 
-def _to_record(row):
+def _to_record(row, price_row_name="PriceNoTax"):
     time = pd.to_datetime(row["DateTime"]).to_pydatetime()
-    price = row["PriceNoTax"]
+    price = row[price_row_name]
     record = Record(time, price)
     return record
 
 
 def _fetch_test(database):
-    for row in TEST_DATA:
-        database.add_record(_to_record(row))
+    for row in TEST_DATA_ENERGY_PRICE:
+        database.add_record(_to_record(row, price_row_name="Price"))
     return database
 
 
