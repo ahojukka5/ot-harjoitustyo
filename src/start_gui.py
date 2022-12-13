@@ -4,6 +4,7 @@
 import tkinter as tk
 import matplotlib
 import datasources
+import settings
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -14,7 +15,7 @@ matplotlib.use("TkAgg")
 class App(tk.Tk):
     """The main Tk app."""
 
-    def __init__(self, source="spot-hinta.fi"):
+    def __init__(self, source=settings.ENERGY_PRICE_SOURCE):
         super().__init__()
         data = datasources.fetch(source).to_dataframe()
         data.energy_price *= 100.0
