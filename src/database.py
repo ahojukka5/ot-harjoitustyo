@@ -13,6 +13,7 @@ Typical usage example:
 """
 
 import pandas as pd
+from record import Record
 
 
 class Database:
@@ -59,7 +60,7 @@ class Database:
         return self.records
 
     def to_dataframe(self):
-        """Convert database to pandas DataFrame.
+        """Export database to pandas Dataframe.
 
         Args:
             Nothing.
@@ -76,3 +77,18 @@ class Database:
             amount.append(record.get_amount())
         dataframe = pd.DataFrame({"price": price, "amount": amount}, index=index)
         return dataframe
+
+    @staticmethod
+    def from_dataframe(df):
+        """Import database from pandas Dataframe.
+
+        Args:
+            dataframe: Pandas Dataframe
+
+        Returns:
+            Database object.
+        """
+        db = Database()
+        for (time, (price, amount)) in df.iterrows():
+            db.add_record(Record(time, price=price, amount=amount))
+        return db
