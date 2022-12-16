@@ -1,19 +1,23 @@
 """Implementation of database class.
 
 The basic implementation of database adds functionality to manipulate a group of
-records. They can be added and exported to pandas DataFrame.
+records. They can be added and exported to pandas DataFrame. Pandas can then be
+used to save/load database in various formats. This implementation uses csv file
+format for now, but basically it could also be easily replaced with SQL database
+or some other "real" data format.
 
 Typical usage example:
 
-  db = Database()
-  db.add_record(record1)
-  db.add_record(record2)
-  df = db.to_dataframe()
+  >>> db = Database()
+  >>> db.add_record(record1)
+  >>> db.add_record(record2)
+  >>> db.save()
 
 """
 
 import pandas as pd
 from record import Record
+import settings
 
 
 class Database:
@@ -92,3 +96,53 @@ class Database:
         for (time, (price, amount)) in df.iterrows():
             db.add_record(Record(time, price=price, amount=amount))
         return db
+
+    def save(self, filename=settings.DB_FILE):
+        """Save database to disk in csv file format.
+
+        Args:
+            filename, optional (reads default filename from settings file)
+
+        Returns:
+            Nothing.
+
+        Notes:
+
+            CSV file format spesification:
+
+            - header row "Time,Price,Amount"
+            - comma separated file
+            - time in ISO8601 standard (prefer UTC)
+            - price and amount with 4 decimals
+            - missing values as 'nan'
+
+            Example:
+
+            ```text
+            Time,Price,Amount
+            2022-12-01T00:00:00Z,0.2845,0.2
+            2022-12-01T01:00:00Z,0.2779,0.3
+            2022-12-01T02:00:00Z,0.2682,nan
+            ```
+
+        """
+        df = self.to_dataframe()
+        df.to_csv(
+            filename,
+            float_format="%0.4f",
+            date_format="%Y-%m-%dT%H:%M:%SZ",
+            na_rep="nan",
+        )
+
+    @staticmethod
+    def load(filename=settings.DB_FILE):
+        """Read database from disk.
+
+        Args:
+            filename, optional (read default filename from settings file)
+
+        Return:
+            Database object
+        """
+        df = pd.read_csv(filename, parse_dates=True, index_col=0)
+        return Database.from_dataframe(df)

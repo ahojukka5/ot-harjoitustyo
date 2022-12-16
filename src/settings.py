@@ -6,6 +6,8 @@ defaults are provided.
 
 import os
 
+DB_FILE = os.path.realpath(os.path.join(os.path.dirname(__file__), "..", "db.csv"))
+
 # Options, "test", "local", "internet"
 ENERGY_PRICE_SOURCE = "test"
 ENERGY_PRICE_URI = "https://api.spot-hinta.fi/TodayAndDayForward"
