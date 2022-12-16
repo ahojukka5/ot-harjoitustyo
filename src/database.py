@@ -67,8 +67,12 @@ class Database:
         Returns:
             Pandas DataFrame objet.
         """
-        data = [record.to_dict() for record in self.get_records()]
-        dataframe = pd.DataFrame(data)
-        dataframe.index = dataframe["time"]
-        del dataframe["time"]
+        index = []
+        price = []
+        amount = []
+        for record in self.get_records():
+            index.append(record.get_time())
+            price.append(record.get_price())
+            amount.append(record.get_amount())
+        dataframe = pd.DataFrame({"price": price, "amount": amount}, index=index)
         return dataframe
