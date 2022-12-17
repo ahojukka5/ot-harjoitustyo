@@ -87,6 +87,20 @@ class Database:
             amount = None
         self._records[record.get_time()].update(price=price, amount=amount)
 
+    def add_or_update_record(self, record):
+        """Add record to database. If exists, update.
+
+        Args:
+            record: a record to add or update.
+
+        Returns:
+            Nothing.
+        """
+        if self.has_record(record):
+            self.update_record(record)
+        else:
+            self.add_record(record)
+
     def get_records(self):
         """Get all records from the database as a sorted list.
 
