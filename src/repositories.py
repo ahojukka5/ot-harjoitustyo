@@ -34,6 +34,16 @@ class Database:
         """
         self._records = collections.OrderedDict()
 
+    def has_record(self, record):
+        """Tests does record already exist in database.
+
+        Args:
+            record: a record object to test.
+
+        Returns:
+            boolean
+        """
+        return record.get_time() in self._records
 
     def add_record(self, record):
         """Add new record to database.
