@@ -1,6 +1,5 @@
 import pandas as pd
 from entities import Record
-import config
 
 
 class Database:
@@ -90,11 +89,11 @@ class Database:
             db.add_record(Record(time, price=price, amount=amount))
         return db
 
-    def save(self, filename=config.DB_FILE):
+    def save(self, filename):
         """Save database to disk in csv file format.
 
         Args:
-            filename, optional (reads default filename from settings file)
+            filename
 
         Returns:
             Nothing.
@@ -128,11 +127,11 @@ class Database:
         )
 
     @staticmethod
-    def load(filename=config.DB_FILE):
+    def load(filename):
         """Read database from disk.
 
         Args:
-            filename, optional (read default filename from settings file)
+            filename
 
         Return:
             Database object
