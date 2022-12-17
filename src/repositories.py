@@ -1,6 +1,7 @@
 import pandas as pd
 from entities import Record
 import collections
+import math
 
 
 class Database:
@@ -61,10 +62,30 @@ class Database:
             raise KeyError("Record %s already exists!" % record.get_time())
         self._records[record.get_time()] = record
 
+    def update_record(self, record):
+        """Update record to database.
+
+        Args:
+            record: a record to update.
+
+        Raises:
+            KeyError, if record with timestamp not found
+
         Returns:
             Nothing.
+
+        Notes:
+            If record price/value contains float('nan'), it won't get updated.
         """
-        self.records.append(record)
+        if not self.has_record(record):
+            raise KeyError("Record %d does not exist!" % record.get_time())
+        price = record.get_price()
+        amount = record.get_amount()
+        if math.isnan(price):
+            price = None
+        if math.isnan(amount):
+            amount = None
+        self._records[record.get_time()].update(price=price, amount=amount)
 
     def get_records(self):
         """Get all records from the database as a sorted list.
