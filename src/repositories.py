@@ -1,5 +1,6 @@
 import pandas as pd
 from entities import Record
+import collections
 
 
 class Database:
