@@ -16,7 +16,7 @@ Typical usage example:
 """
 
 import pandas as pd
-from record import Record
+from entities import Record
 import settings
 
 

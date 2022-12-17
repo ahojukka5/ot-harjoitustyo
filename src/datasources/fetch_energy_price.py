@@ -21,7 +21,7 @@ import pandas as pd
 import requests
 
 from database import Database
-from record import Record
+from entities import Record
 
 from tests import TEST_DATA_ENERGY_PRICE
 import settings

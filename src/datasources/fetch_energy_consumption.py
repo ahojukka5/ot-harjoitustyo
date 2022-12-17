@@ -11,7 +11,7 @@ As a result, a new database object is returned, containing data from source
 import pandas as pd
 import settings
 from database import Database
-from record import Record
+from entities import Record
 from tests import TEST_DATA_ENERGY_CONSUMPTION
 
 
