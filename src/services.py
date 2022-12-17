@@ -12,12 +12,3 @@ tackles this problem basically from two different starting points.
    looking at graphs and calculating certain key figures (how well did I manage
    to optimize?)
 """
-
-# pylint: skip-file
-
-# A very justified reason for using the pylint disable command is that this way
-# the user can more easily import the functions of the package.
-
-from entities import Record
-from repositories import Database
-from utils import get_cheapest_hour
