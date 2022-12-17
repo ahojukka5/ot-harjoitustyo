@@ -91,6 +91,7 @@ class Database:
             price.append(record.get_price())
             amount.append(record.get_amount())
         dataframe = pd.DataFrame({"price": price, "amount": amount}, index=index)
+        dataframe.index.name = "time"
         return dataframe
 
     @staticmethod
@@ -130,7 +131,7 @@ class Database:
             Example:
 
             ```text
-            Time,Price,Amount
+            time,price,amount
             2022-12-01T00:00:00Z,0.2845,0.2
             2022-12-01T01:00:00Z,0.2779,0.3
             2022-12-01T02:00:00Z,0.2682,nan
