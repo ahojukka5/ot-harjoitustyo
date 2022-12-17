@@ -16,7 +16,7 @@ class Database:
     >>> db = Database()
     >>> db.add_record(record1)
     >>> db.add_record(record2)
-    >>> db.save()
+    >>> db.save("db.csv")
 
     Attributes:
         records: The list of records in database.
