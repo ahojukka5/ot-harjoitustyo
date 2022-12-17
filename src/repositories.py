@@ -132,6 +132,10 @@ class Database:
                 cheapest_price = record.get_price()
         return cheapest_record
 
+    def clear(self):
+        """Removes all records from a database."""
+        self._records = collections.OrderedDict()
+
     def to_dataframe(self):
         """Export database to pandas Dataframe.
 
@@ -139,7 +143,7 @@ class Database:
             Nothing.
 
         Returns:
-            Pandas DataFrame objet.
+            Pandas DataFrame object.
         """
         index = []
         price = []
@@ -152,67 +156,14 @@ class Database:
         dataframe.index.name = "time"
         return dataframe
 
-    @staticmethod
-    def from_dataframe(df):
+    def from_dataframe(self, df):
         """Import database from pandas Dataframe.
 
         Args:
-            dataframe: Pandas Dataframe
-
-        Returns:
-            Database object.
-        """
-        db = Database()
-        for (time, (price, amount)) in df.iterrows():
-            db.add_record(Record(time, price=price, amount=amount))
-        return db
-
-    def save(self, filename):
-        """Save database to disk in csv file format.
-
-        Args:
-            filename
+            dataframe: Pandas DataFrame object.
 
         Returns:
             Nothing.
-
-        Notes:
-
-            CSV file format spesification:
-
-            - header row "Time,Price,Amount"
-            - comma separated file
-            - time in ISO8601 standard (prefer UTC)
-            - price and amount with 4 decimals
-            - missing values as 'nan'
-
-            Example:
-
-            ```text
-            time,price,amount
-            2022-12-01T00:00:00Z,0.2845,0.2
-            2022-12-01T01:00:00Z,0.2779,0.3
-            2022-12-01T02:00:00Z,0.2682,nan
-            ```
-
         """
-        df = self.to_dataframe()
-        df.to_csv(
-            filename,
-            float_format="%0.4f",
-            date_format="%Y-%m-%dT%H:%M:%SZ",
-            na_rep="nan",
-        )
-
-    @staticmethod
-    def load(filename):
-        """Read database from disk.
-
-        Args:
-            filename
-
-        Return:
-            Database object
-        """
-        df = pd.read_csv(filename, parse_dates=True, index_col=0)
-        return Database.from_dataframe(df)
+        for (time, (price, amount)) in df.iterrows():
+            self.add_record(Record(time, price=price, amount=amount))
