@@ -1,25 +1,3 @@
-"""Record class is the atomic unit containing information about energy price.
-
-The implementation contains time (unix time stamp), energy price in eur and
-energy usage in kWh. When updating energy prices and/or consumption, very likely
-scenario is that one of those is unknown. This record gives some flexibility so
-that it supports missing values as well as updating values later on. Internally,
-record stores time as a datetime object, but constructor also supports unix
-timestamps and different kind of string formats which are passed to
-`dateutil.parser`, like ISO 8601 format.
-
-Timestamp is timezone-aware. If no timezone is given, it's expected to be UTC.
-
-Typical usage example:
-
-    >>> record("2022-12-16 12:00:00", price=12.34)
-    >>> record.to_json()
-
-    >>> record.update(amount=3.0)
-    >>> record.to_json()
-
-"""
-
 from dateutil import parser
 from dateutil.tz import tzutc
 from datetime import datetime
@@ -27,7 +5,26 @@ import json
 
 
 class Record:
-    """A Record class to contain atomic information about energy price and usage at certain time.
+    """A Record class to contain information about energy price and usage.
+
+    The implementation contains time (unix time stamp), energy price in eur and
+    energy usage in kWh. When updating energy prices and/or consumption, very
+    likely scenario is that one of those is unknown. This record gives some
+    flexibility so that it supports missing values as well as updating values
+    later on. Internally, record stores time as a datetime object, but
+    constructor also supports unix timestamps and different kind of string
+    formats which are passed to `dateutil.parser`, like ISO 8601 format.
+
+    Timestamp is timezone-aware. If no timezone is given, it's expected to be
+    UTC.
+
+    Typical usage example:
+
+        >>> record("2022-12-16 12:00:00", price=12.34)
+        >>> record.to_json()
+
+        >>> record.update(amount=3.0)
+        >>> record.to_json()
 
     Attributes:
         time: Time of the energy price as Python datetime object
