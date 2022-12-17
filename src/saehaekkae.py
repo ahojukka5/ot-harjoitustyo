@@ -19,5 +19,5 @@ tackles this problem basically from two different starting points.
 # the user can more easily import the functions of the package.
 
 from entities import Record
-from database import Database
+from repositories import Database
 from utils import get_cheapest_hour

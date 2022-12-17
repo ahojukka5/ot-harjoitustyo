@@ -20,7 +20,7 @@ import json
 import pandas as pd
 import requests
 
-from database import Database
+from repositories import Database
 from entities import Record
 
 from tests import TEST_DATA_ENERGY_PRICE

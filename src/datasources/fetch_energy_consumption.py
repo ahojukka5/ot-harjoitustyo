@@ -10,7 +10,7 @@ As a result, a new database object is returned, containing data from source
 
 import pandas as pd
 import settings
-from database import Database
+from repositories import Database
 from entities import Record
 from tests import TEST_DATA_ENERGY_CONSUMPTION
 
