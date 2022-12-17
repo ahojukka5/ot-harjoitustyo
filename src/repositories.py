@@ -31,13 +31,24 @@ class Database:
         Returns:
             A new Database object.
         """
-        self.records = []
+        self._records = collections.OrderedDict()
+
 
     def add_record(self, record):
         """Add new record to database.
 
         Args:
-            record: A Record object to add.
+            record: a Record object to add.
+
+        Raises:
+            KeyError, if a record with the same time already exists
+
+        Returns:
+            Nothing.
+        """
+        if self.has_record(record):
+            raise KeyError("Record %s already exists!" % record.get_time())
+        self._records[record.get_time()] = record
 
         Returns:
             Nothing.
@@ -45,7 +56,7 @@ class Database:
         self.records.append(record)
 
     def get_records(self):
-        """Get all records from the database.
+        """Get all records from the database as a sorted list.
 
         Args:
             Nothing.
@@ -53,7 +64,8 @@ class Database:
         Returns:
             A list of records.
         """
-        return self.records
+        self._records = collections.OrderedDict(sorted(self._records.items()))
+        return list(self._records.values())
 
     def get_cheapest_hour(self):
         """Return the cheapest hour from the database.
