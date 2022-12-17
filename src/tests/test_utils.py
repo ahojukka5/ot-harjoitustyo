@@ -1,6 +1,8 @@
 import unittest
 from dateutil import parser
-from saehaekkae import Record, Database, get_cheapest_hour
+from entities import Record
+from repositories import Database
+from utils import get_cheapest_hour
 
 
 class TestUtils(unittest.TestCase):

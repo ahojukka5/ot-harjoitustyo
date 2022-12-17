@@ -1,7 +1,7 @@
 import unittest
 import pytz
 from datetime import datetime
-from saehaekkae import Record
+from entities import Record
 
 
 class TestRecord(unittest.TestCase):

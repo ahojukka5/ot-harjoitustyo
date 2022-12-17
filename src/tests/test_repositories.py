@@ -1,6 +1,7 @@
 import unittest
 from dateutil import parser
-from saehaekkae import Database, Record
+from entities import Record
+from repositories import Database
 
 import pandas as pd
 
