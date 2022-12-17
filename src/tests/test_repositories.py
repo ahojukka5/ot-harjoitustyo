@@ -15,6 +15,18 @@ class TestDatabase(unittest.TestCase):
         first_record = records[0]
         self.assertEqual(record, first_record)
 
+    def test_get_cheapest_hour(self):
+        database = Database()
+        time1 = parser.parse("2022-12-16T20:00:00")
+        time2 = parser.parse("2022-12-16T21:00:00")
+        record1 = record1 = Record(time1, price=10.0, amount=3.0)
+        record2 = record2 = Record(time2, price=20.0, amount=1.0)
+        database.add_record(record1)
+        database.add_record(record2)
+        cheapest = database.get_cheapest_hour()
+        assert cheapest is not None
+        self.assertEqual(cheapest, record1)
+
     def test_to_dataframe(self):
         db = Database()
         db.add_record(Record("2022-11-28T00:00:00", 10.0))

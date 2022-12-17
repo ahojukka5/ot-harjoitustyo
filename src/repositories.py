@@ -55,6 +55,25 @@ class Database:
         """
         return self.records
 
+    def get_cheapest_hour(self):
+        """Return the cheapest hour from the database.
+
+        Args:
+            Nothing.
+
+        Returns:
+            A Record where energy price is cheapest.
+        """
+        cheapest_record = None
+        cheapest_price = 2**32
+        records = self.get_records()
+        assert len(records) > 0
+        for record in records:
+            if record.get_price() < cheapest_price:
+                cheapest_record = record
+                cheapest_price = record.get_price()
+        return cheapest_record
+
     def to_dataframe(self):
         """Export database to pandas Dataframe.
 
