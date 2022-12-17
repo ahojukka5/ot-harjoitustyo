@@ -47,3 +47,16 @@ class TestDatabase(unittest.TestCase):
         db = Database.from_dataframe(df)
         recs = db.get_records()
         self.assertEqual(1.0, recs[0].get_price())
+
+    def test_add_or_update_record(self):
+        db = Database()
+        record = Record("2022-12-16 21:00:00", price=20.0, amount=3.0)
+        db.add_record(record)
+        record = Record("2022-12-16 21:00:00", amount=4.0)
+        with self.assertRaises(KeyError):
+            db.add_record(record)
+        db.add_or_update_record(record)
+        records = db.get_records()
+        self.assertEqual(1, len(records))
+        self.assertEqual(20.0, records[0].get_price())
+        self.assertEqual(4.0, records[0].get_amount())
