@@ -11,4 +11,5 @@
 |  6.12. | 3    | datan valitseminen            |
 | 13.12. | 7    | kulutusdatan näyttö           |
 | 16.12. | 5    | tietokannan luku ja kirjoitus |
-| yht    | 31   |                               |
+| 17.12. | 9    | refaktorointia, arkkitehtuuri |
+| yht    | 40   |                               |
