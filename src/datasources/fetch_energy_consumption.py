@@ -9,7 +9,7 @@ As a result, a new database object is returned, containing data from source
 """
 
 import pandas as pd
-import settings
+import config
 from repositories import Database
 from entities import Record
 from tests import TEST_DATA_ENERGY_CONSUMPTION
@@ -28,7 +28,7 @@ def _fetch_test(database):
     return database
 
 
-def _fetch_local(database, consumption_file=settings.ENERGY_CONSUMPTION_FILE):
+def _fetch_local(database, consumption_file=config.ENERGY_CONSUMPTION_FILE):
     data = pd.read_csv(
         consumption_file,
         delimiter=";",

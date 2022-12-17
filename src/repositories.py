@@ -17,7 +17,7 @@ Typical usage example:
 
 import pandas as pd
 from entities import Record
-import settings
+import config
 
 
 class Database:
@@ -97,7 +97,7 @@ class Database:
             db.add_record(Record(time, price=price, amount=amount))
         return db
 
-    def save(self, filename=settings.DB_FILE):
+    def save(self, filename=config.DB_FILE):
         """Save database to disk in csv file format.
 
         Args:
@@ -135,7 +135,7 @@ class Database:
         )
 
     @staticmethod
-    def load(filename=settings.DB_FILE):
+    def load(filename=config.DB_FILE):
         """Read database from disk.
 
         Args:

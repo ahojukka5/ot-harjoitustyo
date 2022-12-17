@@ -12,7 +12,7 @@ As a result, a new database object is returned, containing data from source
 
 Some sources might need configurations, for example, local data source needs
 the name of the file and fetching from internet requires url from where to
-fetch. Those options are given in `settings.py` and can be overridden with
+fetch. Those options are given in `config.py` and can be overridden with
 environment variables.
 """
 
@@ -24,7 +24,7 @@ from repositories import Database
 from entities import Record
 
 from tests import TEST_DATA_ENERGY_PRICE
-import settings
+import config
 
 
 def _to_record(row, price_row_name="PriceNoTax"):
@@ -41,13 +41,13 @@ def _fetch_test(database):
 
 
 def _fetch_internet(database):
-    for row in requests.get(settings.ENERGY_PRICE_URI, timeout=10).json():
+    for row in requests.get(config.ENERGY_PRICE_URI, timeout=10).json():
         database.add_record(_to_record(row))
     return database
 
 
 def _fetch_local(database):
-    with open(settings.ENERGY_PRICE_FILE, encoding="utf8") as fid:
+    with open(config.ENERGY_PRICE_FILE, encoding="utf8") as fid:
         for row in json.load(fid):
             database.add_record(_to_record(row))
     return database
