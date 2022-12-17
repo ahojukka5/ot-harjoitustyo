@@ -3,7 +3,7 @@ from invoke import task
 
 @task
 def start(ctx):
-    ctx.run("python3 src/start_gui.py", pty=True)
+    ctx.run("python3 src/gui.py", pty=True)
 
 
 @task
@@ -23,4 +23,4 @@ def coverage_report(ctx):
 
 @task
 def lint(ctx):
-    ctx.run("pylint --ignore=start_gui.py,tests src", pty=True)
+    ctx.run("pylint --ignore=gui.py,tests src", pty=True)

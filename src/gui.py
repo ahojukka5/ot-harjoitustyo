@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 import matplotlib
 from datasources import fetch_energy_price, fetch_energy_consumption
-import settings
+import config
 
 import seaborn as sns
 import pandas as pd
@@ -36,7 +36,7 @@ def format_date(data, _):
 def create_scheduling_widget(tab, data):
 
     edata = _extended(data).tz_localize(None)
-    price = edata["energy_price"]
+    price = edata["price"]
 
     figure = Figure(figsize=(8, 4), dpi=100)
     axes = figure.add_subplot()
@@ -72,7 +72,7 @@ def create_scheduling_widget(tab, data):
 def create_analysis_widget(tab, data):
     figure = Figure(figsize=(18, 8), dpi=100)
     axes = figure.add_subplot()
-    data.energy_price.tail(48).plot(kind="bar", ax=axes, picker=True)
+    data.price.tail(48).plot(kind="bar", ax=axes, picker=True)
     axes.set_title("Sähkön käyttö tunneittain")
     axes.set_ylabel("Määrä (kWh)")
     figure.autofmt_xdate(rotation=45)
@@ -93,11 +93,11 @@ def create_analysis_widget(tab, data):
 def create_app():
     """The main Tk app."""
 
-    price_data = fetch_energy_price(settings.ENERGY_PRICE_SOURCE).to_dataframe()
-    price_data.energy_price *= 100.0
+    price_data = fetch_energy_price(config.ENERGY_PRICE_SOURCE).to_dataframe()
+    price_data.price *= 100.0
 
     consumption_data = fetch_energy_consumption(
-        settings.ENERGY_CONSUMPTION_SOURCE
+        config.ENERGY_CONSUMPTION_SOURCE
     ).to_dataframe()
 
     app = tk.Tk()
