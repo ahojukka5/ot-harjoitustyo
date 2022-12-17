@@ -1,20 +1,3 @@
-"""Implementation of database class.
-
-The basic implementation of database adds functionality to manipulate a group of
-records. They can be added and exported to pandas DataFrame. Pandas can then be
-used to save/load database in various formats. This implementation uses csv file
-format for now, but basically it could also be easily replaced with SQL database
-or some other "real" data format.
-
-Typical usage example:
-
-  >>> db = Database()
-  >>> db.add_record(record1)
-  >>> db.add_record(record2)
-  >>> db.save()
-
-"""
-
 import pandas as pd
 from entities import Record
 import config
@@ -23,8 +6,18 @@ import config
 class Database:
     """Database to contain and manipulate records.
 
-    The main functionality of the database class is to contain
-    necessary functionality to handle records.
+    The basic implementation of database adds functionality to manipulate a
+    group of records. They can be added and exported to pandas DataFrame. Pandas
+    can then be used to save/load database in various formats. This
+    implementation uses csv file format for now, but basically it could also be
+    easily replaced with SQL database or some other "real" data format.
+
+    Typical usage example:
+
+    >>> db = Database()
+    >>> db.add_record(record1)
+    >>> db.add_record(record2)
+    >>> db.save()
 
     Attributes:
         records: The list of records in database.
