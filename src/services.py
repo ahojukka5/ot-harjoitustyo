@@ -60,44 +60,19 @@ class Saehaekkae:
         """Save database to disk in a csv file format.
 
         Args:
-            dbfile, optional: file name of database (or read from config)
+            dbfile, optional: file name of database
 
         Returns:
             Nothing.
-
-        Notes:
-
-            CSV file format spesification:
-
-            - header row "time,price,amount"
-            - comma separated file
-            - time in ISO8601 standard (prefer UTC)
-            - price and amount with 4 decimals
-            - missing values as 'nan'
-
-            Example:
-
-            ```text
-            time,price,amount
-            2022-12-01T00:00:00Z,0.2845,0.2
-            2022-12-01T01:00:00Z,0.2779,0.3
-            2022-12-01T02:00:00Z,0.2682,nan
-            ```
-
         """
-        df = self._db.to_dataframe()
-        df.to_csv(
-            dbfile or self._config.DB_FILE,
-            float_format="%0.4f",
-            date_format="%Y-%m-%dT%H:%M:%SZ",
-            na_rep="nan",
-        )
+        with open(dbfile or config.DB_FILE, "w", encoding="utf-8") as out:
+            self._db.write_csv(out)
 
     def load_db(self, dbfile=None):
         """Read database from disk.
 
         Args:
-            dbfile, optional: file nam eof database (or read from config)
+            dbfile, optional: file name of the database
 
         Return:
             Nothing.
@@ -105,9 +80,9 @@ class Saehaekkae:
         Notes:
             Removes all existing data before loading.
         """
-        df = pd.read_csv(dbfile or self._config.DB_FILE, parse_dates=True, index_col=0)
         self._db.clear()
-        self._db.from_dataframe(df)
+        with open(dbfile or config.DB_FILE, "r", encoding="utf-8") as input:
+            self._db.read_csv(input)
 
     def add_source(self, source, source_func):
         """Add new source to update database."""
