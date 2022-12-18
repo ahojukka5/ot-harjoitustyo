@@ -188,11 +188,12 @@ class Database:
             )
             self.add_record(record)
 
-    def write_csv(self, out):
+    def write_csv(self, out, utc=True):
         """Export database in csv format.
 
         Args:
             out: stream
+            utc (bool): convert to UTC time
 
         Returns:
             Nothing.
@@ -211,9 +212,9 @@ class Database:
 
             ```text
             time,price,amount
-            2022-12-01T00:00:00Z,0.2845,0.2
-            2022-12-01T01:00:00Z,0.2779,0.3
-            2022-12-01T02:00:00Z,0.2682,nan
+            2022-12-01T00:00:00+00:00,0.2845,0.2000
+            2022-12-01T01:00:00+00:00,0.2779,0.3000
+            2022-12-01T02:00:00+00:00,0.2682,nan
             ```
 
         """
@@ -224,7 +225,7 @@ class Database:
         for record in self.get_records():
             writer.writerow(
                 {
-                    "time": record.get_time().isoformat(),
+                    "time": record.get_time(utc).isoformat(),
                     "price": "%0.4f" % record.get_price(),
                     "amount": "%0.4f" % record.get_amount(),
                 }
