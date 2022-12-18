@@ -12,4 +12,5 @@
 | 13.12. | 7    | kulutusdatan näyttö           |
 | 16.12. | 5    | tietokannan luku ja kirjoitus |
 | 17.12. | 9    | refaktorointia, arkkitehtuuri |
-| yht    | 40   |                               |
+| 18.12. | 5    | csv-kirjoitus, gui-päivitys   |
+| yht    | 45   |                               |
