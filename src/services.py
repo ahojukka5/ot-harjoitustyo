@@ -104,3 +104,6 @@ class Saehaekkae:
         if source not in self._sources:
             raise KeyError(f"Unable to update using source {source}: unknown source")
         self._sources[source](self._db, *args, **kwargs)
+
+    def get_data_as_dataframe(self):
+        return self._db.to_dataframe()
