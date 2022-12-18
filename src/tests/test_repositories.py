@@ -1,4 +1,6 @@
 import unittest
+import math
+import io
 from dateutil import parser
 from entities import Record
 from repositories import Database
@@ -44,7 +46,8 @@ class TestDatabase(unittest.TestCase):
         t1 = parser.parse("2022-12-16T15:00:00")
         t2 = parser.parse("2022-12-16T16:00:00")
         df = pd.DataFrame({"price": [1, 2], "amount": [3, 4]}, index=[t1, t2])
-        db = Database.from_dataframe(df)
+        db = Database()
+        db.from_dataframe(df)
         recs = db.get_records()
         self.assertEqual(1.0, recs[0].get_price())
 
@@ -60,3 +63,37 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(1, len(records))
         self.assertEqual(20.0, records[0].get_price())
         self.assertEqual(4.0, records[0].get_amount())
+
+    def test_read_db(self):
+        data = (
+            "time,price,amount\n"
+            "2022-12-16T21:00:00+00:00,20.0000,3.0000\n"
+            "2022-12-16T22:00:00+00:00,nan,4.0000\n"
+        )
+        db = Database()
+        db.read_csv(io.StringIO(data))
+        records = db.get_records()
+        self.assertEqual(2, len(records))
+        self.assertEqual(20.0, records[0].get_price())
+        self.assertEqual(3.0, records[0].get_amount())
+        print(type(records[1].get_price()))
+        self.assertTrue(math.isnan(records[1].get_price()))
+        self.assertEqual(4.0, records[1].get_amount())
+
+    def test_write_db(self):
+        db = Database()
+        record = Record("2022-12-16 22:00:00", amount=4.0)
+        db.add_record(record)
+        record = Record("2022-12-16 21:00:00", price=20.0, amount=3.0)
+        db.add_record(record)
+        out = io.StringIO()
+        db.write_csv(out)
+        out.seek(0)
+        print(out.read())
+        out.seek(0)
+        expected = (
+            "time,price,amount\n"
+            "2022-12-16T21:00:00+00:00,20.0000,3.0000\n"
+            "2022-12-16T22:00:00+00:00,nan,4.0000\n"
+        )
+        self.assertEqual(expected, out.read())
