@@ -8,6 +8,7 @@ import config
 import requests
 import dateutil.parser
 import warnings
+import json
 
 
 def update_from_spot_hinta(db):
@@ -32,6 +33,16 @@ def update_from_datahub(db, local_file="data/consumption.csv"):
         warnings.warn(f"consumption file {local_file} not found, unable to update!")
 
 
+def update_from_json(db, local_file="data/generic_json.json"):
+    if os.path.exists(local_file):
+        rows = json.load(open(local_file, "r", encoding="utf-8"))
+        for row in rows:
+            record = Record(row["time"], price=row["price"], amount=row["amount"])
+            db.add_or_update_record(record)
+    else:
+        warnings.warn(f"json file {local_file} not found, unable to update!")
+
+
 class Saehaekkae:
     """Saehaekkae is a program to help reduce user's energy bill.
 
@@ -54,6 +65,7 @@ class Saehaekkae:
         self._sources = {
             "spot-hinta.fi": update_from_spot_hinta,
             "datahub": update_from_datahub,
+            "json": update_from_json,
         }
 
     def save_db(self, dbfile=None):
