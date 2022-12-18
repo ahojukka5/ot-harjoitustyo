@@ -4,17 +4,20 @@
 import tkinter as tk
 from tkinter import ttk
 import matplotlib
-from datasources import fetch_energy_price, fetch_energy_consumption
 import config
+
+from services import Saehaekkae
 
 import seaborn as sns
 import pandas as pd
+import datetime
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import DateFormatter
 
 sns.set_theme()
 matplotlib.use("TkAgg")
+matplotlib.rcParams["timezone"] = "Europe/Helsinki"
 
 
 def _extended(data):
@@ -33,28 +36,34 @@ def format_date(data, _):
     return text
 
 
-def create_scheduling_widget(tab, data):
+def create_scheduling_widget(tab, saehaekkae):
 
-    edata = _extended(data).tz_localize(None)
-    price = edata["price"]
+    data = saehaekkae.get_data_as_dataframe().last("3d")
+    edata = _extended(data).tz_convert("Europe/Helsinki").fillna(0)
+    edata.amount *= 10
+    edata.price *= 100
 
     figure = Figure(figsize=(8, 4), dpi=100)
     axes = figure.add_subplot()
 
-    axes.step(price.index, price, where="post")
-    axes.fill_between(price.index, price, step="post", alpha=0.2)
+    axes.step(edata.index, edata.price, where="post", label="Hinta")
+    axes.fill_between(edata.index, edata.price, step="post", alpha=0.2)
     axes.set_title("Pörssisähkön hinta tunneittain")
-    axes.set_ylabel("Hinta (c/kWh)")
+
+    axes.step(edata.index, edata.amount, where="post", label="Kulutus")
+    axes.fill_between(edata.index, edata.amount, step="post", alpha=0.2)
+    axes.set_ylabel("Hinta (c/kWh) | Kulutus (x100 Wh)")
 
     axes.xaxis.set_major_formatter(format_date)
     axes.xaxis.set_major_locator(matplotlib.dates.HourLocator(interval=3))
 
-    xmin, xmax = price.index[0], price.index[-1]
+    xmin, xmax = edata.index[0], edata.index[-1]
     ymin, ymax = 0, axes.get_ylim()[1]
-    now = pd.Timestamp.now()
+    now = datetime.datetime.utcnow()
     axes.set_ylim(ymin, ymax)
     axes.vlines(now, ymin, ymax)
     axes.set_xlim(xmin, xmax)
+    axes.legend()
     figure.tight_layout()
 
     figure_canvas = FigureCanvasTkAgg(figure, tab)
@@ -69,7 +78,8 @@ def create_scheduling_widget(tab, data):
     figure.canvas.mpl_connect("pick_event", onpick)
 
 
-def create_analysis_widget(tab, data):
+def create_analysis_widget(tab, saehaekkae):
+    data = saehaekkae.get_data_as_dataframe()
     figure = Figure(figsize=(18, 8), dpi=100)
     axes = figure.add_subplot()
     data.price.tail(48).plot(kind="bar", ax=axes, picker=True)
@@ -90,15 +100,8 @@ def create_analysis_widget(tab, data):
     figure.canvas.mpl_connect("pick_event", onpick)
 
 
-def create_app():
+def create_app(saehaekkae):
     """The main Tk app."""
-
-    price_data = fetch_energy_price(config.ENERGY_PRICE_SOURCE).to_dataframe()
-    price_data.price *= 100.0
-
-    consumption_data = fetch_energy_consumption(
-        config.ENERGY_CONSUMPTION_SOURCE
-    ).to_dataframe()
 
     app = tk.Tk()
     app.eval("tk::PlaceWindow . center")
@@ -113,14 +116,16 @@ def create_app():
     tab_parent.pack(expand=1, fill="both")
 
     # tab 1, show prices & scheduling
-    create_scheduling_widget(tab1, price_data)
+    create_scheduling_widget(tab1, saehaekkae)
 
     # tab 2, consumption data visualization
-    create_analysis_widget(tab2, consumption_data)
+    create_analysis_widget(tab2, saehaekkae)
 
     return app
 
 
 if __name__ == "__main__":
-    app = create_app()
+    saehaekkae = Saehaekkae()
+    saehaekkae.load_db()
+    app = create_app(saehaekkae)
     app.mainloop()
