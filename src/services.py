@@ -22,7 +22,7 @@ def update_from_spot_hinta(db):
 
 def update_from_datahub(db, local_file="data/consumption.csv"):
     if os.path.exists(local_file):
-        with open(local_file) as csvfile:
+        with open(local_file, "r") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=";")
             for row in reader:
                 time = dateutil.parser.parse(row["Alkuaika"])
