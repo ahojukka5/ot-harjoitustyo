@@ -2,6 +2,8 @@ import pandas as pd
 from entities import Record
 import collections
 import math
+import datetime
+import csv
 
 
 class Database:
@@ -168,3 +170,62 @@ class Database:
         self.clear()
         for (time, (price, amount)) in df.iterrows():
             self.add_record(Record(time, price=price, amount=amount))
+
+    def read_csv(self, input):
+        """Import database from csv format.
+
+        Args:
+            input: stream
+
+        Returns:
+            Nothing.
+        """
+        reader = csv.DictReader(input)
+        self.clear()
+        for row in reader:
+            record = Record(
+                row["time"], price=float(row["price"]), amount=float(row["amount"])
+            )
+            self.add_record(record)
+
+    def write_csv(self, out):
+        """Export database in csv format.
+
+        Args:
+            out: stream
+
+        Returns:
+            Nothing.
+
+        Notes:
+
+            CSV file format spesification:
+
+            - header row "time,price,amount"
+            - comma separated file
+            - time in ISO8601 standard (prefer UTC)
+            - price and amount with 4 decimals
+            - missing values as 'nan'
+
+            Example:
+
+            ```text
+            time,price,amount
+            2022-12-01T00:00:00Z,0.2845,0.2
+            2022-12-01T01:00:00Z,0.2779,0.3
+            2022-12-01T02:00:00Z,0.2682,nan
+            ```
+
+        """
+        writer = csv.DictWriter(
+            out, fieldnames=["time", "price", "amount"], lineterminator="\n"
+        )
+        writer.writeheader()
+        for record in self.get_records():
+            writer.writerow(
+                {
+                    "time": record.get_time().isoformat(),
+                    "price": "%0.4f" % record.get_price(),
+                    "amount": "%0.4f" % record.get_amount(),
+                }
+            )
