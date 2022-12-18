@@ -70,16 +70,19 @@ class Record:
             )
         return False
 
-    def get_time(self):
+    def get_time(self, utc=False):
         """Get time of record.
 
         Args:
-            Nothing.
+            utc: bool, convert time to UTC time
 
         Returns:
             Python datetime object.
         """
-        return self._time
+        if utc:
+            return self._time.astimezone(tzutc())
+        else:
+            return self._time
 
     def get_price(self):
         """Get energy price.
