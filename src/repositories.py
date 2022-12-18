@@ -165,5 +165,6 @@ class Database:
         Returns:
             Nothing.
         """
+        self.clear()
         for (time, (price, amount)) in df.iterrows():
             self.add_record(Record(time, price=price, amount=amount))
