@@ -107,10 +107,28 @@ class Record:
         return self._amount
 
     def update(self, price=None, amount=None):
+        """Update record.
+
+        Args:
+            price (float): optional
+            amount (float): optional
+
+        Returns:
+            Boolean tuple (price_updated, amount_updated)
+        """
+        price_updated = False
+        amount_updated = False
         if price:
-            self._price = float(price)
+            price = float(price)
+            price_updated = self._price != price
+            if price_updated:
+                self._price = price
         if amount:
-            self._amount = float(amount)
+            amount = float(amount)
+            amount_updated = self._amount != amount
+            if amount_updated:
+                self._amount = float(amount)
+        return (price_updated, amount_updated)
 
     def __repr__(self):
         return "%s,%5.4f,%5.4f" % (
