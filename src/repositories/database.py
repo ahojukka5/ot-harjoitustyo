@@ -127,24 +127,31 @@ class Database:
         self.sort_records()
         return self._records
 
-    def get_cheapest_hour(self):
-        """Return the cheapest hour from the database.
+    def filter_by_time(self, start, end=None):
+        """Filter records by time.
 
         Args:
-            Nothing.
+            start (string or datetime)
+            end (string or datetime, optional)
 
         Returns:
-            A Record where energy price is cheapest.
+            A new database s.t. start <= records <= end
         """
-        cheapest_record = None
-        cheapest_price = 2**32
-        records = self.get_records()
-        assert len(records) > 0
-        for record in records:
-            if record.get_price() < cheapest_price:
-                cheapest_record = record
-                cheapest_price = record.get_price()
-        return cheapest_record
+        # TODO: make more effective
+        if isinstance(start, str):
+            start = dateutil.parser.parse(start)
+        if not start.tzinfo:
+            start = start.replace(tzinfo=tzutc())
+        if end is not None:
+            if isinstance(end, str):
+                end = dateutil.parser.parse(end)
+            if not end.tzinfo:
+                end = end.replace(tzinfo=tzutc())
+        new_records = OrderedDict()
+        for time in self._records:
+            if (end is not None and start <= time <= end) or (start <= time):
+                new_records[time] = self._records[time]
+        return Database(new_records)
 
     def clear(self):
         """Removes all records from a database."""
