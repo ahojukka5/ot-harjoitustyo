@@ -11,35 +11,47 @@ import json
 
 
 def update_from_spot_hinta(db):
+    price_updated, amount_updated = (0, 0)
     rows = requests.get("https://api.spot-hinta.fi/TodayAndDayForward").json()
     for row in rows:
         time = dateutil.parser.parse(row["DateTime"])
         price = row["PriceNoTax"]
         record = Record(time, price=price)
-        db.add_or_update_record(record)
+        p, a = db.add_or_update_record(record)
+        price_updated += p
+        amount_updated += a
+    return (price_updated, amount_updated)
 
 
 def update_from_datahub(db, local_file="data/consumption.csv"):
-    if os.path.exists(local_file):
+    price_updated, amount_updated = (0, 0)
+    if not os.path.exists(local_file):
+        warnings.warn(f"consumption file {local_file} not found, unable to update!")
+    else:
         with open(local_file, "r") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=";")
             for row in reader:
                 time = dateutil.parser.parse(row["Alkuaika"])
                 amount = float(row["Määrä"])
                 record = Record(time, amount=amount)
-                db.add_or_update_record(record)
-    else:
-        warnings.warn(f"consumption file {local_file} not found, unable to update!")
+                p, a = db.add_or_update_record(record)
+                price_updated += p
+                amount_updated += a
+    return (price_updated, amount_updated)
 
 
 def update_from_json(db, local_file="data/generic_json.json"):
-    if os.path.exists(local_file):
+    price_updated, amount_updated = (0, 0)
+    if not os.path.exists(local_file):
+        warnings.warn(f"json file {local_file} not found, unable to update!")
+    else:
         rows = json.load(open(local_file, "r", encoding="utf-8"))
         for row in rows:
             record = Record(row["time"], price=row["price"], amount=row["amount"])
-            db.add_or_update_record(record)
-    else:
-        warnings.warn(f"json file {local_file} not found, unable to update!")
+            p, a = db.add_or_update_record(record)
+            price_updated += p
+            amount_updated += a
+    return (price_updated, amount_updated)
 
 
 class DataService:
@@ -99,7 +111,7 @@ class DataService:
         """
         if source not in self._sources:
             raise KeyError(f"Unable to update using source {source}: unknown source")
-        self._sources[source](self._db, *args, **kwargs)
+        return self._sources[source](self._db, *args, **kwargs)
 
     def get_data_as_dataframe(self):
         return self._db.to_dataframe()
