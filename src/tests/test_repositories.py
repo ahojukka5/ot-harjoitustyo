@@ -13,7 +13,7 @@ class TestDatabase(unittest.TestCase):
         db = Database()
         record = Record("2022-12-16 21:00:00", 20.0, 3.0)
         db.add_record(record)
-        records = db.get_records()
+        records = list(db.get_records().values())
         first_record = records[0]
         self.assertEqual(record, first_record)
 
@@ -48,7 +48,7 @@ class TestDatabase(unittest.TestCase):
         df = pd.DataFrame({"price": [1, 2], "amount": [3, 4]}, index=[t1, t2])
         db = Database()
         db.from_dataframe(df)
-        recs = db.get_records()
+        recs = list(db.get_records().values())
         self.assertEqual(1.0, recs[0].get_price())
 
     def test_add_or_update_record(self):
@@ -59,7 +59,7 @@ class TestDatabase(unittest.TestCase):
         with self.assertRaises(KeyError):
             db.add_record(record)
         db.add_or_update_record(record)
-        records = db.get_records()
+        records = list(db.get_records().values())
         self.assertEqual(1, len(records))
         self.assertEqual(20.0, records[0].get_price())
         self.assertEqual(4.0, records[0].get_amount())
@@ -72,7 +72,7 @@ class TestDatabase(unittest.TestCase):
         )
         db = Database()
         db.read_csv(io.StringIO(data))
-        records = db.get_records()
+        records = list(db.get_records().values())
         self.assertEqual(2, len(records))
         self.assertEqual(20.0, records[0].get_price())
         self.assertEqual(3.0, records[0].get_amount())

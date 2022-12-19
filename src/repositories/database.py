@@ -1,9 +1,10 @@
 import pandas as pd
 from entities import Record
-import collections
+from collections import OrderedDict
 import math
-import datetime
+import dateutil.parser
 import csv
+from dateutil.tz import tzutc
 
 
 class Database:
@@ -155,7 +156,7 @@ class Database:
 
     def clear(self):
         """Removes all records from a database."""
-        self._records = collections.OrderedDict()
+        self._records = OrderedDict()
 
     def to_dataframe(self):
         """Export database to pandas Dataframe.
@@ -169,7 +170,7 @@ class Database:
         index = []
         price = []
         amount = []
-        for record in self.get_records():
+        for record in self.get_records().values():
             index.append(record.get_time())
             price.append(record.get_price())
             amount.append(record.get_amount())
@@ -241,7 +242,7 @@ class Database:
             out, fieldnames=["time", "price", "amount"], lineterminator="\n"
         )
         writer.writeheader()
-        for record in self.get_records():
+        for record in self.get_records().values():
             writer.writerow(
                 {
                     "time": record.get_time(utc).isoformat(),
