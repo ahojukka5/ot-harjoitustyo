@@ -58,11 +58,12 @@ class Database:
             KeyError, if a record with the same time already exists
 
         Returns:
-            Nothing.
+            boolean tuple (has_price, has_amount)
         """
         if self.has_record(record):
             raise KeyError("Record %s already exists!" % record.get_time())
         self._records[record.get_time()] = record
+        return (record.has_price(), record.has_amount())
 
     def update_record(self, record):
         """Update record to database.
@@ -74,7 +75,7 @@ class Database:
             KeyError, if record with timestamp not found
 
         Returns:
-            Nothing.
+            boolean tuple (price_updated, amount_updated)
 
         Notes:
             If record price/value contains float('nan'), it won't get updated.
@@ -87,7 +88,7 @@ class Database:
             price = None
         if math.isnan(amount):
             amount = None
-        self._records[record.get_time()].update(price=price, amount=amount)
+        return self._records[record.get_time()].update(price=price, amount=amount)
 
     def add_or_update_record(self, record):
         """Add record to database. If exists, update.
@@ -96,12 +97,12 @@ class Database:
             record: a record to add or update.
 
         Returns:
-            Nothing.
+            integer: 1 if data is updated, 0 otherwise
         """
         if self.has_record(record):
-            self.update_record(record)
+            return self.update_record(record)
         else:
-            self.add_record(record)
+            return self.add_record(record)
 
     def get_records(self):
         """Get all records from the database as a sorted list.
