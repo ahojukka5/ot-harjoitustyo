@@ -1,7 +1,6 @@
 from repositories import Database
 from entities import Record
 
-import pandas as pd
 import os
 import csv
 import config
@@ -9,7 +8,6 @@ import requests
 import dateutil.parser
 import warnings
 import json
-import datetime
 
 
 def update_from_spot_hinta(db):
