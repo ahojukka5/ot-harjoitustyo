@@ -1,25 +1,25 @@
 import datetime
 import dateutil.parser
+from collections import OrderedDict, namedtuple
 
 
 class Selection:
-    def __init__(self, start: datetime.datetime, end=None):
+
+    TimeRange = namedtuple("TimeRange", ["start", "end"])
+
+    def __init__(self):
+        self._timeranges = OrderedDict()
+
+    def __getitem__(self, time):
+        if isinstance(time, str):
+            time = dateutil.parser.parse(time)
+        return self._timeranges[time]
+
+    def add_timerange(self, start, end):
         if isinstance(start, str):
-            self._start = dateutil.parser.parse(start)
-        else:
-            self._start = start
-        if end is None:
-            self._end = self._start + datetime.timedelta(hours=1)
-        else:
-            if isinstance(end, str):
-                self._end = dateutil.parser.parse(end)
-            else:
-                self._end = end
-        assert isinstance(self._start, datetime.datetime)
-        assert isinstance(self._end, datetime.datetime)
-
-    def get_start(self):
-        return self._start
-
-    def get_end(self):
-        return self._end
+            start = dateutil.parser.parse(start)
+        if isinstance(end, str):
+            end = dateutil.parser.parse(end)
+        assert isinstance(start, datetime.datetime)
+        assert isinstance(end, datetime.datetime)
+        self._timeranges[start] = Selection.TimeRange(start, end)
