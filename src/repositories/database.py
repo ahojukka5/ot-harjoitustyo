@@ -26,11 +26,11 @@ class Database:
         records: The list of records in database.
     """
 
-    def __init__(self):
+    def __init__(self, records=None):
         """Construct a new Database object.
 
         Args:
-            Nothing.
+            records (OrderedDict, optional): initial data
 
         Returns:
             A new Database object.
