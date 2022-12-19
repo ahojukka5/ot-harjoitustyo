@@ -97,3 +97,11 @@ class TestDatabase(unittest.TestCase):
             "2022-12-16T22:00:00+00:00,nan,4.0000\n"
         )
         self.assertEqual(expected, out.read())
+
+    def test_filter_by_time(self):
+        db = Database()
+        db.add_record(Record("2022-12-19 10:00:00"))
+        db.add_record(Record("2022-12-19 11:00:00"))
+        db.add_record(Record("2022-12-19 12:00:00"))
+        records = db.filter_by_time(start="2022-12-19 10:30:00").get_records()
+        self.assertEqual(2, len(records))
