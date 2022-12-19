@@ -120,15 +120,3 @@ class Saehaekkae:
 
     def get_data_as_dataframe(self):
         return self._db.to_dataframe()
-
-
-class DateTimePicker:
-    def __init__(self):
-        self._selections = []
-
-    def pick(self, start):
-        self._selections.append(Selection(start))
-
-    def get_selections(self):
-        return self._selections
-
