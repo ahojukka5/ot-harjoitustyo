@@ -42,22 +42,7 @@ def update_from_json(db, local_file="data/generic_json.json"):
         warnings.warn(f"json file {local_file} not found, unable to update!")
 
 
-class Saehaekkae:
-    """Saehaekkae is a program to help reduce user's energy bill.
-
-    In a variable-price electricity contract, the user can save on the total price
-    of energy by scheduling the use of electricity for favorable periods. Saehaekkae
-    tackles this problem basically from two different starting points.
-
-    1) by scheduling the use of the devices either automatically (for example with
-    various wifi relays) or by receiving a message about the favorable usage time
-    to a smart device
-
-    2) by understanding your own electricity consumption over time by visually
-    looking at graphs and calculating certain key figures (how well did I manage
-    to optimize?)
-    """
-
+class DataService:
     def __init__(self, db=None, config=config):
         self._db = db or Database()
         self._config = config
