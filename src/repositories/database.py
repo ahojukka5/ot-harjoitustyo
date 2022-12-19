@@ -105,7 +105,7 @@ class Database:
             return self.add_record(record)
 
     def get_records(self):
-        """Get all records from the database as a sorted list.
+        """Get all records from the database as a sorted ordered dictionary.
 
         Args:
             Nothing.
@@ -113,8 +113,8 @@ class Database:
         Returns:
             A list of records.
         """
-        self._records = collections.OrderedDict(sorted(self._records.items()))
-        return list(self._records.values())
+        self.sort_records()
+        return self._records
 
     def get_cheapest_hour(self):
         """Return the cheapest hour from the database.
