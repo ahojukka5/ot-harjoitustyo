@@ -23,3 +23,6 @@ class Selection:
         assert isinstance(start, datetime.datetime)
         assert isinstance(end, datetime.datetime)
         self._timeranges[start] = Selection.TimeRange(start, end)
+
+    def get_timeranges(self):
+        return self._timeranges
