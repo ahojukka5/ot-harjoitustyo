@@ -2,6 +2,7 @@ import unittest
 import pytz
 from datetime import datetime
 from entities import Record
+from entities import Selection
 
 
 class TestRecord(unittest.TestCase):
@@ -37,3 +38,12 @@ class TestRecord(unittest.TestCase):
         )
         json = self.record.to_json()
         self.assertEqual(expected, json)
+
+
+class TestSelection(unittest.TestCase):
+    def test_constructor(self):
+        s = Selection()
+        s.add_timerange("2022-12-19 15:00", "2022-12-19 16:00")
+        s.add_timerange("2022-12-19 17:00", "2022-12-19 18:00")
+        end2 = datetime(2022, 12, 19, 18, 0, 0)
+        self.assertEqual(end2, s["2022-12-19 17:00"].end)
