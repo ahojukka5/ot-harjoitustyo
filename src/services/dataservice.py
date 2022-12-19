@@ -1,5 +1,5 @@
 from repositories import Database
-from entities import Record
+from entities import Record, Selection
 
 import os
 import csv
@@ -8,6 +8,7 @@ import requests
 import dateutil.parser
 import warnings
 import json
+import datetime
 
 
 def update_from_spot_hinta(db):
@@ -115,3 +116,17 @@ class DataService:
 
     def get_data_as_dataframe(self):
         return self._db.to_dataframe()
+
+    def find_cheapest_hours(self, hours=3):
+        """Find N cheapest hours from future prices."""
+        now = datetime.datetime.utcnow()
+        records = self._db.filter_by_time(start=now, end=None).get_records()
+        sorted_keys = sorted(records, key=lambda r: records[r].get_price())
+        selection = Selection()
+        for i in range(hours):
+            if i == len(sorted_keys):
+                break
+            start = sorted_keys[i]
+            end = start + datetime.timedelta(hours=1)
+            selection.add_timerange(start, end)
+        return selection
