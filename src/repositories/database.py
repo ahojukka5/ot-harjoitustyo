@@ -35,7 +35,7 @@ class Database:
         Returns:
             A new Database object.
         """
-        self._records = collections.OrderedDict()
+        self._records = records or OrderedDict()
 
     def has_record(self, record):
         """Tests does record already exist in database.
