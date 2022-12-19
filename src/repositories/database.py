@@ -104,6 +104,17 @@ class Database:
         else:
             return self.add_record(record)
 
+    def sort_records(self):
+        """Sort records in-place.
+
+        Args:
+            Nothing.
+
+        Returns:
+            Nothing.
+        """
+        self._records = OrderedDict(sorted(self._records.items()))
+
     def get_records(self):
         """Get all records from the database as a sorted ordered dictionary.
 
