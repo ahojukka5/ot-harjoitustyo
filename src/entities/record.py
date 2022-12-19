@@ -2,6 +2,7 @@ from dateutil import parser
 from dateutil.tz import tzutc
 from datetime import datetime
 import json
+import math
 
 
 class Record:
@@ -105,6 +106,28 @@ class Record:
             float describing the price.
         """
         return self._amount
+
+    def has_price(self):
+        """Check does record have a finite price.
+
+        Args:
+            Nothing.
+
+        Returns:
+            Boolean
+        """
+        return math.isfinite(self.get_price())
+
+    def has_amount(self):
+        """Check does record have a finite amount.
+
+        Args:
+            Nothing.
+
+        Returns:
+            Boolean
+        """
+        return math.isfinite(self.get_amount())
 
     def update(self, price=None, amount=None):
         """Update record.
