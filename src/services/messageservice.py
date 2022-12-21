@@ -17,8 +17,7 @@ class ShellyMessage:
 
     @staticmethod
     def get_timespec(time):
-        time = time.astimezone()
-        return time.strftime("%S %M %H %d %m %a").upper()
+        return time.astimezone().strftime("%-S %-M %-H %-d %-m %^a")
 
     def create_payloads(self):
         payloads = []
