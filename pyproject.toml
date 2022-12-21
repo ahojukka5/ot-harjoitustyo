@@ -15,6 +15,7 @@ matplotlib = "^3.6.2"
 seaborn = "^0.12.1"
 python-dotenv = "^0.21.0"
 google-api-python-client = "^2.70.0"
+google-auth-oauthlib = "^0.8.0"
 
 
 [tool.poetry.group.dev.dependencies]
