@@ -41,6 +41,7 @@ class Selection:
                     del trs[trj.start]
                     trs[tri.start] = Selection.TimeRange(tri.start, trj.end)
                     done = False
+                    break
         return self
 
     def get_timeranges(self, pack=True):
