@@ -14,4 +14,5 @@
 | 17.12. | 9    | refaktorointia, arkkitehtuuri |
 | 18.12. | 5    | csv-kirjoitus, gui-päivitys   |
 | 19.12. | 9    | Selection ja Message palvelut |
-| yht    | 45   |                               |
+| 21.12. | 6    | ShellyMessage, Google Cal.    |
+| yht    | 51   |                               |
