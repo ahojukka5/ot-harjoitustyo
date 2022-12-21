@@ -42,4 +42,8 @@ class Selection:
                     trs[tri.start] = Selection.TimeRange(tri.start, trj.end)
                     done = False
         return self
+
+    def get_timeranges(self, pack=True):
+        if pack:
+            self.pack()
         return self._timeranges
