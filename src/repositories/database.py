@@ -66,6 +66,22 @@ class Database:
         self._records[record.get_time()] = record
         return (record.has_price(), record.has_amount())
 
+    def get_record(self, time):
+        """Return a record from database.
+
+        Args:
+            time: string or datetime representing time.
+
+        Raises:
+            KeyError, if record not found.
+
+        Returns:
+            Record
+        """
+        if isinstance(time, str):
+            time = dateutil.parser.parse(time)
+        return self._records[time.replace(tzinfo=tzutc())]
+
     def update_record(self, record):
         """Update record to database.
 
