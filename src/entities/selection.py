@@ -15,6 +15,9 @@ class Selection:
             time = dateutil.parser.parse(time)
         return self._timeranges[time]
 
+    def __iter__(self):
+        return self.get_timeranges().values().__iter__()
+
     def add_timerange(self, start, end):
         if isinstance(start, str):
             start = dateutil.parser.parse(start)
