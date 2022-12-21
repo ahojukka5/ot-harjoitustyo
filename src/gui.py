@@ -5,8 +5,9 @@ import tkinter as tk
 from tkinter import ttk
 import matplotlib
 import config
+import math
 
-from services import Saehaekkae
+from services import DataService as Saehaekkae
 
 import seaborn as sns
 import pandas as pd
@@ -38,10 +39,14 @@ def format_date(data, _):
 
 def create_scheduling_widget(tab, saehaekkae):
 
-    data = saehaekkae.get_data_as_dataframe().last("3d")
+    data = saehaekkae.get_data_as_dataframe().dropna(how="all").last("3d")
     edata = _extended(data).tz_convert("Europe/Helsinki").fillna(0)
-    edata.amount *= 10
     edata.price *= 100
+
+    scaling = edata.price.max() / edata.amount.max()
+
+    scaling = math.floor(scaling)
+    edata.amount *= scaling
 
     figure = Figure(figsize=(8, 4), dpi=100)
     axes = figure.add_subplot()
@@ -52,15 +57,27 @@ def create_scheduling_widget(tab, saehaekkae):
 
     axes.step(edata.index, edata.amount, where="post", label="Kulutus")
     axes.fill_between(edata.index, edata.amount, step="post", alpha=0.2)
-    axes.set_ylabel("Hinta (c/kWh) | Kulutus (x100 Wh)")
+    axes.set_ylabel("Hinta (c/kWh)")
+
+    axes2 = axes.twinx()
+    axes2.grid()
+    axes2.set_ylabel("Kulutus (kWh)")
 
     axes.xaxis.set_major_formatter(format_date)
     axes.xaxis.set_major_locator(matplotlib.dates.HourLocator(interval=3))
 
-    xmin, xmax = edata.index[0], edata.index[-1]
+    yticks = []
+    for tick in axes.get_yticks():
+        yticks.append("%0.2f" % (tick / scaling))
+    axes2.set_yticks(axes.get_yticks())
+    axes2.set_yticklabels(yticks)
+
     ymin, ymax = 0, axes.get_ylim()[1]
-    now = datetime.datetime.utcnow()
     axes.set_ylim(ymin, ymax)
+    axes2.set_ylim(ymin, ymax)
+
+    xmin, xmax = edata.index[0], edata.index[-1]
+    now = datetime.datetime.utcnow()
     axes.vlines(now, ymin, ymax)
     axes.set_xlim(xmin, xmax)
     axes.legend()
