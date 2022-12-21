@@ -27,5 +27,19 @@ class Selection:
         assert isinstance(end, datetime.datetime)
         self._timeranges[start] = Selection.TimeRange(start, end)
 
-    def get_timeranges(self):
+    def pack(self):
+        """'Pack' timeranges by combining adjacent time ranges."""
+        done = False
+        trs = self._timeranges = OrderedDict(sorted(self._timeranges.items()))
+        while not done:
+            done = True
+            keys = list(self._timeranges.keys())
+            for i in range(len(keys) - 1):
+                tri = trs[keys[i]]
+                trj = trs[keys[i + 1]]
+                if tri.end == trj.start:
+                    del trs[trj.start]
+                    trs[tri.start] = Selection.TimeRange(tri.start, trj.end)
+                    done = False
+        return self
         return self._timeranges
