@@ -136,3 +136,7 @@ class DataService:
             end = start + datetime.timedelta(hours=1)
             selection.add_timerange(start, end)
         return selection
+
+    def get_record(self, time):
+        """Return a record from database."""
+        return self._db.get_record(time)
