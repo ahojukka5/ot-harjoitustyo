@@ -8,6 +8,9 @@ class DateTimePicker:
     def __init__(self):
         self._selection = Selection()
 
+    def clear(self):
+        self._selection = Selection()
+
     def pick(self, start):
         if isinstance(start, str):
             start = dateutil.parser.parse(start)
