@@ -18,6 +18,12 @@ class Selection:
     def __iter__(self):
         return self.get_timeranges().values().__iter__()
 
+    def is_selected(self, time):
+        for tr in self._timeranges.values():
+            if tr.start <= time < tr.end:
+                return True
+        return False
+
     def add_timerange(self, start, end):
         if isinstance(start, str):
             start = dateutil.parser.parse(start)
