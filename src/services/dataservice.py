@@ -117,6 +117,11 @@ class DataService:
     def get_data_as_dataframe(self):
         return self._db.to_dataframe()
 
+    def get_future_prices(self):
+        now = datetime.datetime.utcnow()
+        records = self._db.filter_by_time(start=now).get_records()
+        return list(filter(lambda r: r.has_price(), records.values()))
+
     def find_cheapest_hours(self, hours=3, order="time"):
         """Find N cheapest hours from future prices.
 
