@@ -1,14 +1,12 @@
 """Graphical interface of saehaekkae.
 """
 
+import config
+
 import tkinter as tk
 from tkinter import ttk
 import matplotlib
-import config
 import math
-
-from services import DataService as Saehaekkae
-
 import seaborn as sns
 import pandas as pd
 import datetime
@@ -117,32 +115,25 @@ def create_analysis_widget(tab, saehaekkae):
     figure.canvas.mpl_connect("pick_event", onpick)
 
 
-def create_app(saehaekkae):
-    """The main Tk app."""
+class GUI(tk.Tk):
+    def __init__(self, dataservice, datetimepicker, messageservice):
+        super().__init__()
+        self._dataservice = dataservice
+        self._datetimepicker = datetimepicker
+        self._messageservice = messageservice
+        self.eval("tk::PlaceWindow . center")
+        self.title("Saehaekkae - saehkoen saeaelimaetoen saeaestaejae!")
+        self.geometry("800x600")
 
-    app = tk.Tk()
-    app.eval("tk::PlaceWindow . center")
-    app.title("Saehaekkae - saehkoen saeaelimaetoen saeaestaejae!")
-    app.geometry("800x600")
+        tab_parent = ttk.Notebook(self)
+        tab1 = ttk.Frame(tab_parent)
+        tab2 = ttk.Frame(tab_parent)
+        tab_parent.add(tab1, text="Hinnat")
+        tab_parent.add(tab2, text="Kulutus")
+        tab_parent.pack(expand=1, fill="both")
 
-    tab_parent = ttk.Notebook(app)
-    tab1 = ttk.Frame(tab_parent)
-    tab2 = ttk.Frame(tab_parent)
-    tab_parent.add(tab1, text="Hinnat")
-    tab_parent.add(tab2, text="Kulutus")
-    tab_parent.pack(expand=1, fill="both")
+        # tab 1, show prices & scheduling
+        create_scheduling_widget(tab1, dataservice)
 
-    # tab 1, show prices & scheduling
-    create_scheduling_widget(tab1, saehaekkae)
-
-    # tab 2, consumption data visualization
-    create_analysis_widget(tab2, saehaekkae)
-
-    return app
-
-
-if __name__ == "__main__":
-    saehaekkae = Saehaekkae()
-    saehaekkae.load_db()
-    app = create_app(saehaekkae)
-    app.mainloop()
+        # tab 2, consumption data visualization
+        create_analysis_widget(tab2, dataservice)
