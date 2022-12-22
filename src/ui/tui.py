@@ -137,17 +137,18 @@ class TUI:
     def quit(self):
         self._done = True
 
-    def start(self):
+    def mainloop(self):
+        io = self.get_io()
         while not self._done:
             self.list_prices()
             self.print_commands()
-            line = self._io.input("Anna komento: ").upper()
+            line = io.input("Anna komento: ").upper()
             args = line.split(" ")
             cmd = args.pop(0)
-            self._io.print()
+            io.print()
             if cmd in self._commands:
                 self._commands[cmd](*args)
             else:
-                self._io.print("Virheellinen komento!")
-        self._io.print("Näkemiin!")
+                io.print("Virheellinen komento!")
+        io.print("Näkemiin!")
         return 0
