@@ -13,16 +13,16 @@ class DateTimePicker:
 
     def pick(self, start):
         if isinstance(start, str):
-            start = dateutil.parser.parse(start)
+            start = dateutil.parser.parse(start).astimezone()
         end = start + datetime.timedelta(hours=1)
         self._selection.add_timerange(start, end)
         return self
 
     def pick_between(self, start, end):
         if isinstance(start, str):
-            start = dateutil.parser.parse(start)
+            start = dateutil.parser.parse(start).astimezone()
         if isinstance(end, str):
-            end = dateutil.parser.parse(end)
+            end = dateutil.parser.parse(end).astimezone()
         self._selection.add_timerange(start, end)
         return self
 
