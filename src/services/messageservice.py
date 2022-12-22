@@ -2,6 +2,9 @@ import json
 import datetime
 import requests
 
+from google.oauth2.credentials import Credentials
+from apiclient.discovery import build
+
 
 class ShellyMessage:
     """
@@ -68,9 +71,54 @@ class ShellyMessage:
         return json.dumps(self._payloads, indent=4)
 
 
+class GoogleMessage:
+    def __init__(self, selection, timezone="Europe/Helsinki", summary="Sähköhälytys!"):
+        self._selection = selection
+        self._timezone = timezone
+        self._summary = summary
+        self._payloads = self.create_payload()
+
+    def create_payload(self):
+        payloads = []
+        for selection in self._selection:
+            payloads.append(
+                {
+                    "summary": self._summary,
+                    "start": {
+                        "dateTime": selection.start.strftime("%Y-%m-%dT%H:%M:%S"),
+                        "timeZone": self._timezone,
+                    },
+                    "end": {
+                        "dateTime": selection.end.strftime("%Y-%m-%dT%H:%M:%S"),
+                        "timeZone": self._timezone,
+                    },
+                    "reminders": {
+                        "useDefault": False,
+                        "overrides": [
+                            {"method": "popup", "minutes": 5},
+                        ],
+                    },
+                }
+            )
+        return payloads
+
+    def __repr__(self):
+        return json.dumps(self._payloads, indent=4)
+
+    def send(self, credentials_file, calendar_id):
+        credentials = Credentials.from_authorized_user_file(credentials_file)
+        service = build("calendar", "v3", credentials=credentials)
+        for payload in self._payloads:
+            print("google calendar payload:")
+            print(json.dumps(payload, indent=4))
+            st = service.events().insert(calendarId=calendar_id, body=payload).execute()
+            print(f"response: {st}")
+        return {"status": True}
+
+
 class MessageService:
     def __init__(self):
-        self._targets = {"shelly": ShellyMessage}
+        self._targets = {"shelly": ShellyMessage, "google-calendar": GoogleMessage}
 
     def create_message(self, selection, target, *args, **kwargs):
         if target not in self._targets:
