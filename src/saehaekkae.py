@@ -17,7 +17,7 @@ import sys
 import argparse
 
 from services import DataService, DateTimePicker, MessageService
-from ui import TUI
+from ui import TUI, GUI
 
 
 def start_tui(args):
@@ -28,12 +28,18 @@ def start_tui(args):
         dataservice.update_db(source="spot-hinta.fi")
     datetimepicker = DateTimePicker()
     messageservice = MessageService()
-    return TUI(dataservice, datetimepicker, messageservice).start()
+    return TUI(dataservice, datetimepicker, messageservice).mainloop()
 
 
 def start_gui(args):
     print("Saehaekkae -- starting graphical user interface")
-    return 0
+    dataservice = DataService()
+    dataservice.load_db()
+    if not args.no_update:
+        dataservice.update_db(source="spot-hinta.fi")
+    datetimepicker = DateTimePicker()
+    messageservice = MessageService()
+    return GUI(dataservice, datetimepicker, messageservice).mainloop()
 
 
 def main():
@@ -43,7 +49,7 @@ def main():
     gui = subparsers.add_parser("gui", help="Start graphical user interface")
     tui = subparsers.add_parser("tui", help="Start textual user interface")
 
-    tui.add_argument(
+    parser.add_argument(
         "--no-update",
         help="don't update prices automatically from api.spot-hinta.fi",
         action="store_true",
