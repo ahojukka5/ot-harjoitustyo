@@ -7,6 +7,11 @@ def start(ctx):
 
 
 @task
+def start_tui(ctx):
+    ctx.run("python3 src/saehaekkae.py tui", pty=True)
+
+
+@task
 def test(ctx):
     ctx.run("pytest src", pty=True)
 
