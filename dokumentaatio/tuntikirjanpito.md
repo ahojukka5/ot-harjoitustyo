@@ -15,4 +15,5 @@
 | 18.12. | 5    | csv-kirjoitus, gui-päivitys   |
 | 19.12. | 9    | Selection ja Message palvelut |
 | 21.12. | 6    | ShellyMessage, Google Cal.    |
-| yht    | 51   |                               |
+| 22.12. | 9    | TUI käyttöliittymä            |
+| yht    | 60   |                               |
