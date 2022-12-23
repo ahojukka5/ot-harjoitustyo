@@ -22,6 +22,7 @@ from ui import TUI, GUI
 
 
 def start_tui(args):
+    """Saehaekkae textual user interface starting command."""
     print("Saehaekkae -- starting textual user interface")
     dataservice = DataService()
     dataservice.load_db(config.DB_FILE)
@@ -34,6 +35,7 @@ def start_tui(args):
 
 
 def start_gui(args):
+    """Saehaekkae graphical user interface starting command."""
     print("Saehaekkae -- starting graphical user interface")
     dataservice = DataService()
     dataservice.load_db(config.DB_FILE)
@@ -46,6 +48,7 @@ def start_gui(args):
 
 
 def main():
+    """Saehaekkae main entry point."""
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="cmd", help="User interface to launch")
     subparsers.required = True
