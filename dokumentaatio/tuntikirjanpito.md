@@ -16,4 +16,5 @@
 | 19.12. | 9    | Selection ja Message palvelut |
 | 21.12. | 6    | ShellyMessage, Google Cal.    |
 | 22.12. | 9    | TUI käyttöliittymä            |
+| 23.12. | 10   | Pylint kuntoon + refactoring  |
 | yht    | 60   |                               |
