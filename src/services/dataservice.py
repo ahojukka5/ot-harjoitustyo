@@ -29,7 +29,7 @@ def update_from_datahub(db, local_file="data/consumption.csv"):
     if not os.path.exists(local_file):
         warnings.warn(f"consumption file {local_file} not found, unable to update!")
     else:
-        with open(local_file, "r") as csvfile:
+        with open(local_file, "r", encoding="utf8") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=";")
             for row in reader:
                 time = dateutil.parser.parse(row["Alkuaika"])
