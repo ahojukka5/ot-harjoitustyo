@@ -62,7 +62,7 @@ class Database:
             boolean tuple (has_price, has_amount)
         """
         if self.has_record(record):
-            raise KeyError("Record %s already exists!" % record.get_time())
+            raise KeyError(f"Record {record.get_time()} already exists!")
         self._records[record.get_time()] = record
         return (record.has_price(), record.has_amount())
 
@@ -98,7 +98,7 @@ class Database:
             If record price/value contains float('nan'), it won't get updated.
         """
         if not self.has_record(record):
-            raise KeyError("Record %d does not exist!" % record.get_time())
+            raise KeyError(f"Record {record.get_time()} does not exist!")
         price = record.get_price()
         amount = record.get_amount()
         if math.isnan(price):
@@ -262,7 +262,7 @@ class Database:
             writer.writerow(
                 {
                     "time": record.get_time(utc).isoformat(),
-                    "price": "%0.4f" % record.get_price(),
-                    "amount": "%0.4f" % record.get_amount(),
+                    "price": f"{record.get_price():0.4f}",
+                    "amount": f"{record.get_amount():0.4f}",
                 }
             )
