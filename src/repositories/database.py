@@ -192,7 +192,7 @@ class Database:
         dataframe.index.name = "time"
         return dataframe
 
-    def from_dataframe(self, df):
+    def from_dataframe(self, dataframe):
         """Import database from pandas Dataframe.
 
         Args:
@@ -202,7 +202,7 @@ class Database:
             Nothing.
         """
         self.clear()
-        for (time, (price, amount)) in df.iterrows():
+        for (time, (price, amount)) in dataframe.iterrows():
             self.add_record(Record(time, price=price, amount=amount))
 
     def read_csv(self, input):
