@@ -9,7 +9,8 @@ import dateutil.parser
 from repositories import Database
 from entities import Record, Selection
 
-def update_from_spot_hinta(db):
+
+def update_from_spot_hinta(database):
     price_updated, amount_updated = (0, 0)
     rows = requests.get(
         "https://api.spot-hinta.fi/TodayAndDayForward", timeout=10
@@ -18,13 +19,13 @@ def update_from_spot_hinta(db):
         time = dateutil.parser.parse(row["DateTime"])
         price = row["PriceNoTax"]
         record = Record(time, price=price)
-        p, a = db.add_or_update_record(record)
-        price_updated += p
-        amount_updated += a
+        price, amount = database.add_or_update_record(record)
+        price_updated += price
+        amount_updated += amount
     return (price_updated, amount_updated)
 
 
-def update_from_datahub(db, local_file="data/consumption.csv"):
+def update_from_datahub(database, local_file="data/consumption.csv"):
     price_updated, amount_updated = (0, 0)
     if not os.path.exists(local_file):
         warnings.warn(f"consumption file {local_file} not found, unable to update!")
@@ -35,23 +36,24 @@ def update_from_datahub(db, local_file="data/consumption.csv"):
                 time = dateutil.parser.parse(row["Alkuaika"])
                 amount = float(row["Määrä"])
                 record = Record(time, amount=amount)
-                p, a = db.add_or_update_record(record)
-                price_updated += p
-                amount_updated += a
+                price, amount = database.add_or_update_record(record)
+                price_updated += price
+                amount_updated += amount
     return (price_updated, amount_updated)
 
 
-def update_from_json(db, local_file="data/generic_json.json"):
+def update_from_json(database, local_file="data/generic_json.json"):
     price_updated, amount_updated = (0, 0)
     if not os.path.exists(local_file):
         warnings.warn(f"json file {local_file} not found, unable to update!")
     else:
-        rows = json.load(open(local_file, "r", encoding="utf-8"))
-        for row in rows:
-            record = Record(row["time"], price=row["price"], amount=row["amount"])
-            p, a = db.add_or_update_record(record)
-            price_updated += p
-            amount_updated += a
+        with open(local_file, "r", encoding="utf-8") as file:
+            rows = json.load(file)
+            for row in rows:
+                record = Record(row["time"], price=row["price"], amount=row["amount"])
+                price, amount = database.add_or_update_record(record)
+                price_updated += price
+                amount_updated += amount
     return (price_updated, amount_updated)
 
 
