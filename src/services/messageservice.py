@@ -113,8 +113,9 @@ class GoogleMessage:
         for payload in self._payloads:
             print("google calendar payload:")
             print(json.dumps(payload, indent=4))
-            st = service.events().insert(calendarId=calendar_id, body=payload).execute()
-            print(f"response: {st}")
+            event = service.events().insert(calendarId=calendar_id, body=payload)
+            status = event.execute()
+            print(f"response: {status}")
         return {"status": True}
 
 
