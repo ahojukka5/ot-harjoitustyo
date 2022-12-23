@@ -205,16 +205,16 @@ class Database:
         for (time, (price, amount)) in dataframe.iterrows():
             self.add_record(Record(time, price=price, amount=amount))
 
-    def read_csv(self, input):
+    def read_csv(self, input_):
         """Import database from csv format.
 
         Args:
-            input: stream
+            input: stream (file, iostream etc.)
 
         Returns:
             Nothing.
         """
-        reader = csv.DictReader(input)
+        reader = csv.DictReader(input_)
         self.clear()
         for row in reader:
             record = Record(
