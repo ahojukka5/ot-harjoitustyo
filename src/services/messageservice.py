@@ -9,9 +9,30 @@ from apiclient.discovery import build
 
 
 class ShellyMessage:
-    """
+    """ShellyMessage is a json message which is sent to Shelly device.
+
+    The idea is that ShellyMessage is manipulating Shelly's cronjob in order
+    to control relays. Shellys are known be a bit fragile for network connections,
+    but with this approach is only required that Shelly is connected to wifi during
+    sending the message.
+
+    Typical usage example:
+
+    >>> selection = Selection()
+    >>> selection.add_timerange("2022-12-24 18:00", "2022-12-24 19:00")
+    >>> relays = [1, 2]  # floor heating + water boiler
+    >>> shelly_ip = "192.168.1.30"  # ip address of shelly in local network
+    >>> msg = ShellyMessage(selection, relays)
+    >>> msg.send(shelly_ip)
+    {"status": true}
+
+    Notes:
+
+    Shelly API documentation for scheduler can be found from [1].
+
     References:
-        - https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Schedule/
+
+        [1]: https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Schedule/
     """
 
     def __init__(self, selection, relays, shift=True):
@@ -22,9 +43,18 @@ class ShellyMessage:
 
     @staticmethod
     def get_timespec(time):
+        """Return time in a format what Shelly understands.
+
+        Args:
+            time (datetime)
+
+        Returns:
+            timespec string
+        """
         return time.astimezone().strftime("%-S %-M %-H %-d %-m %^a")
 
     def create_payloads(self):
+        """Create jsonable payload which is then sent to Shelly."""
         payloads = []
         for selection in self._selection:
             for relay_id in self._relays:
@@ -56,6 +86,14 @@ class ShellyMessage:
         return payloads
 
     def send(self, shelly_ip):
+        """Send payload to Shelly device.
+
+        Args:
+            shelly_ip (str): ip address or host name of shelly device.
+
+        Returns:
+            Dictionary {"status": True} if sending payload is succesfull.
+        """
         url = f"http://{shelly_ip}/rpc/Schedule.Create"
         print(f"ShellyMessage: sending payload to {url}")
         status = True
@@ -74,6 +112,22 @@ class ShellyMessage:
 
 
 class GoogleMessage:
+    """GoogleMessage is a message with calendar event payload.
+
+    This requires Google credentials file, and that is not the most trivial
+    thing to get.
+
+    Typical usage example:
+
+    >>> selection = Selection()
+    >>> selection.add_timerange("2022-12-24 18:00", "2022-12-24 19:00")
+    >>> msg = GoogleMessage(selection, summary="Cheap energy, turn sauna on!")
+    >>> credentials_file = "google_credentials.json"
+    >>> calendar_id = "da...5eb@group.calendar.google.com"
+    >>> msg.send(credentials_file, calendar_id)
+    {"status": true}
+    """
+
     def __init__(self, selection, timezone="Europe/Helsinki", summary="Sähköhälytys!"):
         self._selection = selection
         self._timezone = timezone
@@ -81,6 +135,7 @@ class GoogleMessage:
         self._payloads = self.create_payload()
 
     def create_payload(self):
+        """Create jsonable payload to send using Google service."""
         payloads = []
         for selection in self._selection:
             payloads.append(
@@ -108,6 +163,7 @@ class GoogleMessage:
         return json.dumps(self._payloads, indent=4)
 
     def send(self, credentials_file, calendar_id):
+        """Send message using Google service. This requires Google credentials."""
         credentials = Credentials.from_authorized_user_file(credentials_file)
         service = build("calendar", "v3", credentials=credentials)
         for payload in self._payloads:
@@ -120,13 +176,36 @@ class GoogleMessage:
 
 
 class MessageService:
+    """Message service is used to create and send messages."""
+
     def __init__(self):
         self._targets = {"shelly": ShellyMessage, "google-calendar": GoogleMessage}
 
     def create_message(self, selection, target, *args, **kwargs):
+        """Create a new message.
+
+        Args:
+            selection (Selection)
+            target (str): name of the message used in mapping ('shelly' or 'google-calendar')
+
+        Rest of the arguments are passed to message constructor
+
+        Returns:
+            Message
+        """
         if target not in self._targets:
             raise KeyError(f"Unable to send message to target {target}: unknown target")
         return self._targets[target](selection, *args, **kwargs)
 
     def send_message(self, message, *args, **kwargs):
+        """Send message.
+
+        Args:
+            message (Message)
+
+        Rest of the arguments are passed to Message.send function.
+
+        Returns:
+            Dictionary having the status
+        """
         return message.send(*args, **kwargs)
