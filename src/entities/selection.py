@@ -19,8 +19,8 @@ class Selection:
         return self.get_timeranges().values().__iter__()
 
     def is_selected(self, time):
-        for tr in self._timeranges.values():
-            if tr.start <= time < tr.end:
+        for timerange in self._timeranges.values():
+            if timerange.start <= time < timerange.end:
                 return True
         return False
 
