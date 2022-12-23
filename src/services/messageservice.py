@@ -14,7 +14,7 @@ class ShellyMessage:
         - https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Schedule/
     """
 
-    def __init__(self, selection, relays=[], shift=True):
+    def __init__(self, selection, relays, shift=True):
         self._selection = selection
         self._relays = relays
         self._shift = shift
