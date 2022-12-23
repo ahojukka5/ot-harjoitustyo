@@ -153,7 +153,6 @@ class Database:
         Returns:
             A new database s.t. start <= records <= end
         """
-        # TODO: make more effective
         if isinstance(start, str):
             start = dateutil.parser.parse(start)
         if not start.tzinfo:
