@@ -28,34 +28,24 @@ def _extended(data):
 
 
 def format_date(data, _):
+    """Matplotlib formatter for datetime. Every midnight give additional date information."""
     text = DateFormatter("%H").format_data(data)
     if text == "00":
         text = DateFormatter("%H\n%Y-%m-%d").format_data(data)
     return text
 
 
-def create_scheduling_widget(tab, saehaekkae):
-
-    data = saehaekkae.get_data_as_dataframe().dropna(how="all").last("3d")
+def _prepare_data(dataservice):
+    data = dataservice.get_data_as_dataframe().dropna(how="all").last("4d")
     edata = _extended(data).tz_convert("Europe/Helsinki").fillna(0)
     edata.price *= 100
-
     scaling = edata.price.max() / edata.amount.max()
-
     scaling = math.floor(scaling)
     edata.amount *= scaling
+    return edata, scaling
 
-    figure = Figure(figsize=(8, 4), dpi=100)
-    axes = figure.add_subplot()
 
-    axes.step(edata.index, edata.price, where="post", label="Hinta")
-    axes.fill_between(edata.index, edata.price, step="post", alpha=0.2)
-    axes.set_title("Pörssisähkön hinta tunneittain")
-
-    axes.step(edata.index, edata.amount, where="post", label="Kulutus")
-    axes.fill_between(edata.index, edata.amount, step="post", alpha=0.2)
-    axes.set_ylabel("Hinta (c/kWh)")
-
+def _format_axes(axes, scaling=1):
     axes2 = axes.twinx()
     axes2.grid()
     axes2.set_ylabel("Kulutus (kWh)")
@@ -65,34 +55,45 @@ def create_scheduling_widget(tab, saehaekkae):
 
     yticks = []
     for tick in axes.get_yticks():
-        yticks.append("%0.2f" % (tick / scaling))
+        y_value = tick / scaling
+        yticks.append(f"{y_value:0.2f}")
     axes2.set_yticks(axes.get_yticks())
     axes2.set_yticklabels(yticks)
 
-    ymin, ymax = 0, axes.get_ylim()[1]
-    axes.set_ylim(ymin, ymax)
-    axes2.set_ylim(ymin, ymax)
+    axes.set_ylim(0, axes.get_ylim()[1])
+    axes2.set_ylim(0, axes.get_ylim()[1])
 
-    xmin, xmax = edata.index[0], edata.index[-1]
-    now = datetime.datetime.utcnow()
-    axes.vlines(now, ymin, ymax)
+
+def create_scheduling_widget(tab, dataservice):
+    """Return scheduling widget (tab 1)."""
+
+    data, scaling = _prepare_data(dataservice)
+
+    figure = Figure(figsize=(19.20, 5.40), dpi=100)
+    axes = figure.add_subplot()
+
+    axes.step(data.index, data.price, where="post", label="Hinta")
+    axes.fill_between(data.index, data.price, step="post", alpha=0.2)
+    axes.set_title("Pörssisähkön hinta tunneittain")
+
+    axes.step(data.index, data.amount, where="post", label="Kulutus")
+    axes.fill_between(data.index, data.amount, step="post", alpha=0.2)
+    axes.set_ylabel("Hinta (c/kWh)")
+
+    _format_axes(axes, scaling=scaling)
+
+    xmin, xmax = data.index[0], data.index[-1]
+    axes.vlines(datetime.datetime.utcnow(), 0, axes.get_ylim()[1])
     axes.set_xlim(xmin, xmax)
     axes.legend()
     figure.tight_layout()
 
     figure_canvas = FigureCanvasTkAgg(figure, tab)
-    # NavigationToolbar2Tk(figure_canvas, self)
     figure_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
-    def onpick(event):
-        bar = event.artist
-        bar.set_fc("red")
-        figure.canvas.draw()
-
-    figure.canvas.mpl_connect("pick_event", onpick)
 
 
 def create_analysis_widget(tab, saehaekkae):
+    """Create analysis widged (tab 2)."""
     data = saehaekkae.get_data_as_dataframe()
     figure = Figure(figsize=(18, 8), dpi=100)
     axes = figure.add_subplot()
@@ -107,22 +108,23 @@ def create_analysis_widget(tab, saehaekkae):
     figure_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     def onpick(event):
-        bar = event.artist
-        bar.set_fc("red")
+        event.artist.set_fc("red")
         figure.canvas.draw()
 
     figure.canvas.mpl_connect("pick_event", onpick)
 
 
 class GUI(tk.Tk):
+    """Saehaekkae graphical user interface class."""
+
     def __init__(self, dataservice, datetimepicker, messageservice):
         super().__init__()
         self._dataservice = dataservice
         self._datetimepicker = datetimepicker
         self._messageservice = messageservice
-        self.eval("tk::PlaceWindow . center")
+        # self.eval("tk::PlaceWindow . center")
         self.title("Saehaekkae - saehkoen saeaelimaetoen saeaestaejae!")
-        self.geometry("800x600")
+        # self.geometry("2400x1200")
 
         tab_parent = ttk.Notebook(self)
         tab1 = ttk.Frame(tab_parent)
