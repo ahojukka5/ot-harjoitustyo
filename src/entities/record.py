@@ -82,8 +82,7 @@ class Record:
         """
         if utc:
             return self._time.astimezone(tzutc())
-        else:
-            return self._time
+        return self._time
 
     def get_price(self):
         """Get energy price.
