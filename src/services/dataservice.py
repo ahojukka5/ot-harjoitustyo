@@ -11,6 +11,7 @@ from entities import Record, Selection
 
 
 def update_from_spot_hinta(database):
+    """Update price data from api.spot-hinta.fi."""
     price_updated, amount_updated = (0, 0)
     rows = requests.get(
         "https://api.spot-hinta.fi/TodayAndDayForward", timeout=10
@@ -26,6 +27,7 @@ def update_from_spot_hinta(database):
 
 
 def update_from_datahub(database, local_file="data/consumption.csv"):
+    """Update consumption data from a csv file downloaded from oma.datahub.fi."""
     price_updated, amount_updated = (0, 0)
     if not os.path.exists(local_file):
         warnings.warn(f"consumption file {local_file} not found, unable to update!")
@@ -43,6 +45,7 @@ def update_from_datahub(database, local_file="data/consumption.csv"):
 
 
 def update_from_json(database, local_file="data/generic_json.json"):
+    """Update price/consumption data from generic json file."""
     price_updated, amount_updated = (0, 0)
     if not os.path.exists(local_file):
         warnings.warn(f"json file {local_file} not found, unable to update!")
@@ -58,6 +61,22 @@ def update_from_json(database, local_file="data/generic_json.json"):
 
 
 class DataService:
+    """DataService allows access to price and consumption data.
+
+    Data is collected from various of sources and stores in a csv database to
+    disk.
+
+    Typical usage example
+    >>> ds = DataService()
+    >>> ds.load_db("db.csv")
+    >>> ds.update_db(source="spot-hinta.fi")
+    >>> ds.save_db("db.csv")
+    >>> selection1 = ds.find_cheapest_hours(hours=3, order="time")
+    >>> print(selection)
+    ...
+
+    """
+
     def __init__(self, database=None):
         self._db = database or Database()
         self._sources = {
@@ -95,7 +114,15 @@ class DataService:
             self._db.read_csv(file)
 
     def add_source(self, source, source_func):
-        """Add new source to update database."""
+        """Add new source to update database.
+
+        Args:
+            source (str): name of the source
+            source_func: a function that takes a database instance as a first argument
+
+        Returns:
+            Nothing.
+        """
         self._sources[source] = source_func
 
     def update_db(self, source, *args, **kwargs):
@@ -116,9 +143,18 @@ class DataService:
         return self._sources[source](self._db, *args, **kwargs)
 
     def get_data_as_dataframe(self):
+        """Return the whole database as a Pandas DataFrame for a serious data analysis."""
         return self._db.to_dataframe()
 
     def get_future_prices(self):
+        """Return all records from a database which are newer than current time.
+
+        Args:
+            Nothing.
+
+        Returns:
+            A list of Record objects.
+        """
         now = datetime.datetime.utcnow()
         records = self._db.filter_by_time(start=now).get_records()
         return list(filter(lambda r: r.has_price(), records.values()))
@@ -128,6 +164,9 @@ class DataService:
 
         Args:
             order (str): 'time' or 'price'
+
+        Returns:
+            A Selection object containing N cheapest hours.
         """
         now = datetime.datetime.utcnow()
         records = self._db.filter_by_time(start=now, end=None).get_records()
