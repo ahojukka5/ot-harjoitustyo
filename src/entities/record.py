@@ -154,11 +154,10 @@ class Record:
         return (price_updated, amount_updated)
 
     def __repr__(self):
-        return "%s,%5.4f,%5.4f" % (
-            self.get_time().isoformat(),
-            self.get_price(),
-            self.get_amount(),
-        )
+        time = self.get_time().isoformat()
+        price = self.get_price()
+        amount = self.get_amount()
+        return f"{time},{price:5.4f},{amount:5.4f}"
 
     def to_dict(self):
         """Convert record to dictionary.
