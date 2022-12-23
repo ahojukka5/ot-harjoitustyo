@@ -118,8 +118,7 @@ class Database:
         """
         if self.has_record(record):
             return self.update_record(record)
-        else:
-            return self.add_record(record)
+        return self.add_record(record)
 
     def sort_records(self):
         """Sort records in-place.
