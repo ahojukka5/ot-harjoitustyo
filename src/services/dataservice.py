@@ -58,32 +58,31 @@ def update_from_json(database, local_file="data/generic_json.json"):
 
 
 class DataService:
-    def __init__(self, db=None, config=config):
-        self._db = db or Database()
-        self._config = config
+    def __init__(self, database=None):
+        self._db = database or Database()
         self._sources = {
             "spot-hinta.fi": update_from_spot_hinta,
             "datahub": update_from_datahub,
             "json": update_from_json,
         }
 
-    def save_db(self, dbfile=None):
+    def save_db(self, dbfile):
         """Save database to disk in a csv file format.
 
         Args:
-            dbfile, optional: file name of database
+            dbfile: file name of database
 
         Returns:
             Nothing.
         """
-        with open(dbfile or config.DB_FILE, "w", encoding="utf-8") as out:
+        with open(dbfile, "w", encoding="utf-8") as out:
             self._db.write_csv(out)
 
-    def load_db(self, dbfile=None):
+    def load_db(self, dbfile):
         """Read database from disk.
 
         Args:
-            dbfile, optional: file name of the database
+            dbfile: file name of the database
 
         Return:
             Nothing.
@@ -92,8 +91,8 @@ class DataService:
             Removes all existing data before loading.
         """
         self._db.clear()
-        with open(dbfile or config.DB_FILE, "r", encoding="utf-8") as input:
-            self._db.read_csv(input)
+        with open(dbfile, "r", encoding="utf-8") as file:
+            self._db.read_csv(file)
 
     def add_source(self, source, source_func):
         """Add new source to update database."""
