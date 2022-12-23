@@ -4,12 +4,16 @@ import config
 
 
 class IO:
+    """A simple IO wrapper to make unit testing easier."""
+
     @staticmethod
     def print(*args, **kwargs):
+        """Print method."""
         print(*args, **kwargs)
 
     @staticmethod
     def input(*args, **kwargs):
+        """Input method."""
         return input(*args, **kwargs)
 
 
@@ -31,19 +35,24 @@ class TUI:
         self._done = False
 
     def get_messageservice(self):
+        """Return MessageService."""
         return self._messageservice
 
     def get_dataservice(self):
+        """Return DataService."""
         return self._dataservice
 
     def get_datetimepicker(self):
+        """Return DateTimePicker."""
         return self._datetimepicker
 
     def get_io(self):
+        """Return IO."""
         return self._io
 
     @staticmethod
     def format_list_price(record, format_date=True):
+        """Return nicely formatted line for list price."""
         start = record.get_time().astimezone()
         end = start + datetime.timedelta(hours=1)
         hour = start.strftime("%H")
@@ -53,6 +62,7 @@ class TUI:
         return f"{date} {hour} - {next_hour} : {price:5.2f}"
 
     def list_prices(self):
+        """List all future electric prices."""
         out = self.get_io().print
         out(
             "\n"
@@ -76,6 +86,7 @@ class TUI:
             out(line)
 
     def print_commands(self):
+        """Print all commands of this user interface."""
         out = self.get_io().print
         out()
         out("Komennot:")
@@ -88,6 +99,7 @@ class TUI:
         out()
 
     def pick(self, date, timerange):
+        """Pick some time range using DateTimePicker."""
         out = self.get_io().print
         picker = self.get_datetimepicker()
         start, end = timerange.split("-")
@@ -95,9 +107,11 @@ class TUI:
         picker.pick_between(f"{date} {start}:00", f"{date} {end}:00")
 
     def clear(self):
+        """Clear DateTimePicker selection."""
         self._datetimepicker.clear()
 
     def calendar(self, summary="Sähäkkä muistutus"):
+        """Send picked timeranges to Google calendar."""
         out = self.get_io().print
         msg = self.get_messageservice()
         picker = self.get_datetimepicker()
@@ -122,6 +136,7 @@ class TUI:
         self.clear()
 
     def shelly(self, relay_id):
+        """Send picked timeranges to Shelly device."""
         relay_id = int(relay_id)
         out = self.get_io().print
         msg = self.get_messageservice()
@@ -138,9 +153,11 @@ class TUI:
         self.clear()
 
     def quit(self):
+        """Quit application."""
         self._done = True
 
     def mainloop(self):
+        """Mainloop of user interface."""
         out = self.get_io().print
         while not self._done:
             self.list_prices()
