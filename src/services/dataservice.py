@@ -11,7 +11,9 @@ from entities import Record, Selection
 
 def update_from_spot_hinta(db):
     price_updated, amount_updated = (0, 0)
-    rows = requests.get("https://api.spot-hinta.fi/TodayAndDayForward").json()
+    rows = requests.get(
+        "https://api.spot-hinta.fi/TodayAndDayForward", timeout=10
+    ).json()
     for row in rows:
         time = dateutil.parser.parse(row["DateTime"])
         price = row["PriceNoTax"]
