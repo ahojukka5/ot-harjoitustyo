@@ -61,7 +61,7 @@ class ShellyMessage:
         status = True
         for payload in self._payloads:
             print(json.dumps(payload, indent=4))
-            response = requests.post(url, json=payload)
+            response = requests.post(url, json=payload, timeout=5)
             print(f"Response: {response.status_code}")
             if response.status_code != 200:
                 print(f"Failed to send payload: {response.text}")
