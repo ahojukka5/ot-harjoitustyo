@@ -1,6 +1,6 @@
 import datetime
-import config
 import os
+import config
 
 
 class IO:

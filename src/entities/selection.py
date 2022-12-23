@@ -1,6 +1,6 @@
 import datetime
-import dateutil.parser
 from collections import OrderedDict, namedtuple
+import dateutil.parser
 
 
 class Selection:

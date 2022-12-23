@@ -1,18 +1,17 @@
 """Graphical interface of saehaekkae.
 """
 
-import config
 
 import tkinter as tk
 from tkinter import ttk
-import matplotlib
 import math
-import seaborn as sns
-import pandas as pd
 import datetime
+import matplotlib
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.dates import DateFormatter
+import seaborn as sns
+import pandas as pd
 
 sns.set_theme()
 matplotlib.use("TkAgg")

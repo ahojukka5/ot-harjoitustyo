@@ -1,8 +1,8 @@
-from dateutil import parser
-from dateutil.tz import tzutc
 from datetime import datetime
 import json
 import math
+from dateutil.tz import tzutc
+from dateutil import parser
 
 
 class Record:

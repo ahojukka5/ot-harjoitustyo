@@ -1,10 +1,10 @@
-import pandas as pd
-from entities import Record
 from collections import OrderedDict
 import math
-import dateutil.parser
 import csv
+import dateutil.parser
 from dateutil.tz import tzutc
+import pandas as pd
+from entities import Record
 
 
 class Database:

@@ -1,7 +1,6 @@
-from entities import Selection
-
-import dateutil.parser
 import datetime
+import dateutil.parser
+from entities import Selection
 
 
 class DateTimePicker:

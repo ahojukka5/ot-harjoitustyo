@@ -1,15 +1,13 @@
-from repositories import Database
-from entities import Record, Selection
-
 import os
 import csv
-import config
-import requests
-import dateutil.parser
 import warnings
 import json
 import datetime
+import requests
+import dateutil.parser
 
+from repositories import Database
+from entities import Record, Selection
 
 def update_from_spot_hinta(db):
     price_updated, amount_updated = (0, 0)
