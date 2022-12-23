@@ -16,7 +16,7 @@ if os.path.exists(env_file):
 
 def _getenv(env_name, default, prefix="SAEHAEKKAE"):
     """Return prefixed environment variable value or default value."""
-    return os.getenv("%s_%s" % (prefix, env_name)) or default
+    return os.getenv(f"{prefix}_{env_name}") or default
 
 
 DB_FILE = _getenv("DB_FILE", "db.csv")
