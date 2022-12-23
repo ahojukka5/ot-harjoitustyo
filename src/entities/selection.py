@@ -24,6 +24,9 @@ class Selection:
                 return True
         return False
 
+    def __contains__(self, time):
+        return self.is_selected(time)
+
     def add_timerange(self, start, end):
         if isinstance(start, str):
             start = dateutil.parser.parse(start)
