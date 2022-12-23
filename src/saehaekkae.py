@@ -16,6 +16,7 @@ optimize?)
 import sys
 import argparse
 
+import config
 from services import DataService, DateTimePicker, MessageService
 from ui import TUI, GUI
 
@@ -23,8 +24,9 @@ from ui import TUI, GUI
 def start_tui(args):
     print("Saehaekkae -- starting textual user interface")
     dataservice = DataService()
-    dataservice.load_db()
+    dataservice.load_db(config.DB_FILE)
     if not args.no_update:
+        print("Updating prices")
         dataservice.update_db(source="spot-hinta.fi")
     datetimepicker = DateTimePicker()
     messageservice = MessageService()
@@ -34,8 +36,9 @@ def start_tui(args):
 def start_gui(args):
     print("Saehaekkae -- starting graphical user interface")
     dataservice = DataService()
-    dataservice.load_db()
+    dataservice.load_db(config.DB_FILE)
     if not args.no_update:
+        print("Updating prices")
         dataservice.update_db(source="spot-hinta.fi")
     datetimepicker = DateTimePicker()
     messageservice = MessageService()
