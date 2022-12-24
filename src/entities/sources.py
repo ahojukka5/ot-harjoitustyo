@@ -27,7 +27,12 @@ class PriceSource(AbstractSource):
 
     def update(self):
         """Update price data."""
-        rows = requests.get(PriceSource.url, timeout=10).json()
+        response = requests.get(PriceSource.url, timeout=10)
+        status_code = response.status_code
+        if status_code != 200:
+            warnings.warn("Unable to update prices from {url}: code {status_code}")
+            return (self.price_updated, self.consumption_updated)
+        rows = response.json()
         for row in rows:
             time = dateutil.parser.parse(row["DateTime"])
             price = row["PriceNoTax"]
