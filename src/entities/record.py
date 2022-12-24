@@ -58,6 +58,7 @@ class Record:
             self._time = time
         if not self._time.tzinfo:
             self._time = self._time.replace(tzinfo=tzutc())
+        self._time = self._time.astimezone(tzutc())
         self._price = float(price)
         self._amount = float(amount)
 
