@@ -10,54 +10,89 @@ from repositories import Database
 from entities import Record, Selection
 
 
-def update_from_spot_hinta(database):
-    """Update price data from api.spot-hinta.fi."""
-    price_updated, amount_updated = (0, 0)
-    rows = requests.get(
-        "https://api.spot-hinta.fi/TodayAndDayForward", timeout=10
-    ).json()
-    for row in rows:
-        time = dateutil.parser.parse(row["DateTime"])
-        price = row["PriceNoTax"]
-        record = Record(time, price=price)
-        price, amount = database.add_or_update_record(record)
-        price_updated += price
-        amount_updated += amount
-    return (price_updated, amount_updated)
+class AbstractSource:
+    """Abstract Source class."""
+
+    def update(self):
+        """Update prices or consumptions from source X."""
+        raise NotImplementedError("Implement this method.")
 
 
-def update_from_datahub(database, local_file="data/consumption.csv"):
+class PriceSource(AbstractSource):
+    """Update price data from spot-hinta.fi"""
+
+    url = "https://api.spot-hinta.fi/TodayAndDayForward"
+
+    def __init__(self, database):
+        self._db = database
+        self.price_updated = 0
+        self.consumption_updated = 0
+
+    def update(self):
+        """Update price data."""
+        rows = requests.get(PriceSource.url, timeout=10).json()
+        for row in rows:
+            time = dateutil.parser.parse(row["DateTime"])
+            price = row["PriceNoTax"]
+            record = Record(time, price=price)
+            price, amount = self._db.add_or_update_record(record)
+            self.price_updated += price
+            self.consumption_updated += amount
+        return (self.price_updated, self.consumption_updated)
+
+
+class ConsumptionSource(AbstractSource):
     """Update consumption data from a csv file downloaded from oma.datahub.fi."""
-    price_updated, amount_updated = (0, 0)
-    if not os.path.exists(local_file):
-        warnings.warn(f"consumption file {local_file} not found, unable to update!")
-    else:
-        with open(local_file, "r", encoding="utf8") as csvfile:
+
+    def __init__(self, database, local_file):
+        if not os.path.exists(local_file):
+            warnings.warn(f"consumption file {local_file} not found, unable to update!")
+            local_file = None
+        self._db = database
+        self._local_file = local_file
+        self.price_updated = 0
+        self.consumption_updated = 0
+
+    def update(self):
+        """Update consumption data."""
+        if self._local_file is None:
+            return (self.price_updated, self.consumption_updated)
+        with open(self._local_file, "r", encoding="utf8") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=";")
             for row in reader:
                 time = dateutil.parser.parse(row["Alkuaika"])
                 amount = float(row["Määrä"])
                 record = Record(time, amount=amount)
-                price, amount = database.add_or_update_record(record)
-                price_updated += price
-                amount_updated += amount
-    return (price_updated, amount_updated)
+                price, amount = self._db.add_or_update_record(record)
+                self.price_updated += price
+                self.consumption_updated += amount
+        return (self.price_updated, self.consumption_updated)
 
 
-def update_from_json(database, local_file="data/generic_json.json"):
+class GenericSource(AbstractSource):
     """Update price/consumption data from generic json file."""
-    price_updated, amount_updated = (0, 0)
-    if not os.path.exists(local_file):
-        warnings.warn(f"json file {local_file} not found, unable to update!")
-    else:
-        with open(local_file, "r", encoding="utf-8") as file:
+
+    def __init__(self, database, local_file):
+        if not os.path.exists(local_file):
+            warnings.warn(f"json file {local_file} not found, unable to update!")
+            local_file = None
+        self._db = database
+        self._local_file = local_file
+        self.price_updated = 0
+        self.consumption_updated = 0
+
+    def update(self):
+        """Update price/consumption data."""
+        if self._local_file is None:
+            return (self.price_updated, self.consumption_updated)
+        with open(self._local_file, "r", encoding="utf-8") as file:
             rows = json.load(file)
             for row in rows:
                 record = Record(row["time"], price=row["price"], amount=row["amount"])
-                price, amount = database.add_or_update_record(record)
-                price_updated += price
-                amount_updated += amount
-    return (price_updated, amount_updated)
+                price, amount = self._db.add_or_update_record(record)
+                self.price_updated += price
+                self.consumption_updated += amount
+        return (self.price_updated, self.consumption_updated)
 
 
 class DataService:
@@ -80,9 +115,9 @@ class DataService:
     def __init__(self, database=None):
         self._db = database or Database()
         self._sources = {
-            "spot-hinta.fi": update_from_spot_hinta,
-            "datahub": update_from_datahub,
-            "json": update_from_json,
+            "spot-hinta.fi": PriceSource,
+            "datahub": ConsumptionSource,
+            "json": GenericSource,
         }
 
     def save_db(self, dbfile):
@@ -113,17 +148,17 @@ class DataService:
         with open(dbfile, "r", encoding="utf-8") as file:
             self._db.read_csv(file)
 
-    def add_source(self, source, source_func):
+    def add_source(self, source, source_class):
         """Add new source to update database.
 
         Args:
             source (str): name of the source
-            source_func: a function that takes a database instance as a first argument
+            source_class: a class that inherits AbstractSource and implements `update`
 
         Returns:
             Nothing.
         """
-        self._sources[source] = source_func
+        self._sources[source] = source_class
 
     def update_db(self, source, *args, **kwargs):
         """Update database from a source.
@@ -140,7 +175,8 @@ class DataService:
         """
         if source not in self._sources:
             raise KeyError(f"Unable to update using source {source}: unknown source")
-        return self._sources[source](self._db, *args, **kwargs)
+        source = self._sources[source](self._db, *args, **kwargs)
+        return source.update()
 
     def get_data_as_dataframe(self):
         """Return the whole database as a Pandas DataFrame for a serious data analysis."""
