@@ -8,7 +8,11 @@ from google.oauth2.credentials import Credentials
 from apiclient.discovery import build
 
 
-class ShellyMessage:
+class AbstractMessage:
+    pass
+
+
+class ShellyMessage(AbstractMessage):
     """ShellyMessage is a json message which is sent to Shelly device.
 
     The idea is that ShellyMessage is manipulating Shelly's cronjob in order
@@ -35,11 +39,17 @@ class ShellyMessage:
         [1]: https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Schedule/
     """
 
-    def __init__(self, selection, relays, shift=True):
+    def __init__(self, selection, relays, shift=True, _io=None):
         self._selection = selection
         self._relays = relays
         self._shift = shift
         self._payloads = self.create_payloads()
+        self._io = _io
+
+    def maybe_print(self, *args, **kwargs):
+        """Print a message if io is connected."""
+        if self._io:
+            self._io.print(*args, **kwargs)
 
     @staticmethod
     def get_timespec(time):
@@ -95,14 +105,14 @@ class ShellyMessage:
             Dictionary {"status": True} if sending payload is succesfull.
         """
         url = f"http://{shelly_ip}/rpc/Schedule.Create"
-        print(f"ShellyMessage: sending payload to {url}")
+        self.maybe_print(f"ShellyMessage: sending payload to {url}")
         status = True
         for payload in self._payloads:
-            print(json.dumps(payload, indent=4))
+            self.maybe_print(json.dumps(payload, indent=4))
             response = requests.post(url, json=payload, timeout=5)
             print(f"Response: {response.status_code}")
             if response.status_code != 200:
-                print(f"Failed to send payload: {response.text}")
+                self.maybe_print(f"Failed to send payload: {response.text}")
                 status = False
                 break
         return {"status": status}
@@ -111,7 +121,7 @@ class ShellyMessage:
         return json.dumps(self._payloads, indent=4)
 
 
-class GoogleMessage:
+class GoogleMessage(AbstractMessage):
     """GoogleMessage is a message with calendar event payload.
 
     This requires Google credentials file, and that is not the most trivial
@@ -128,11 +138,19 @@ class GoogleMessage:
     {"status": true}
     """
 
-    def __init__(self, selection, timezone="Europe/Helsinki", summary="Sähköhälytys!"):
+    def __init__(
+        self, selection, timezone="Europe/Helsinki", summary="Sähköhälytys!", _io=None
+    ):
         self._selection = selection
         self._timezone = timezone
         self._summary = summary
         self._payloads = self.create_payload()
+        self._io = _io
+
+    def maybe_print(self, *args, **kwargs):
+        """Print a message if io is connected."""
+        if self._io:
+            self._io.print(*args, **kwargs)
 
     def create_payload(self):
         """Create jsonable payload to send using Google service."""
@@ -167,11 +185,11 @@ class GoogleMessage:
         credentials = Credentials.from_authorized_user_file(credentials_file)
         service = build("calendar", "v3", credentials=credentials)
         for payload in self._payloads:
-            print("google calendar payload:")
-            print(json.dumps(payload, indent=4))
+            self.maybe_print("google calendar payload:")
+            self.maybe_print(json.dumps(payload, indent=4))
             event = service.events().insert(calendarId=calendar_id, body=payload)
             status = event.execute()
-            print(f"response: {status}")
+            self.maybe_print(f"response: {status}")
         return {"status": True}
 
 
