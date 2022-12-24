@@ -47,3 +47,18 @@ class TestSelection(unittest.TestCase):
         s.add_timerange("2022-12-19 17:00", "2022-12-19 18:00")
         end2 = datetime(2022, 12, 19, 18, 0, 0)
         self.assertEqual(end2, s["2022-12-19 17:00"].end)
+
+    def test_pack(self):
+        s = Selection()
+        s.add_timerange("2022-12-24 12:00", "2022-12-24 13:00")
+        s.add_timerange("2022-12-24 13:00", "2022-12-24 14:00")
+        timeranges = s.get_timeranges(pack=True)
+        start = datetime(2022, 12, 24, 12, 0, 0)
+        end = datetime(2022, 12, 24, 14, 0, 0)
+        self.assertEqual(end, timeranges[start].end)
+
+    def test_is_selected(self):
+        selection = Selection()
+        selection.add_timerange("2022-12-24 12:00", "2022-12-24 13:00")
+        self.assertTrue("2022-12-24 12:30" in selection)
+        self.assertFalse("2022-12-24 13:30" in selection)
