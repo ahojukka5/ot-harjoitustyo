@@ -1,8 +1,10 @@
 import unittest
-import pytz
 from datetime import datetime
+import pytz
 from entities import Record
 from entities import Selection
+from entities import ShellyMessage
+from entities import GoogleMessage
 
 
 class TestRecord(unittest.TestCase):
@@ -62,3 +64,61 @@ class TestSelection(unittest.TestCase):
         selection.add_timerange("2022-12-24 12:00", "2022-12-24 13:00")
         self.assertTrue("2022-12-24 12:30" in selection)
         self.assertFalse("2022-12-24 13:30" in selection)
+
+
+class TestShellyMessage(unittest.TestCase):
+    def test_message(self):
+        selection = Selection()
+        selection.add_timerange("2022-12-24 18:00", "2022-12-24 19:00")
+        selection.add_timerange("2022-12-24 20:00", "2022-12-24 21:00")
+        relays = [1]
+        msg = ShellyMessage(selection, relays)
+        expected = [
+            {
+                "enable": True,
+                "timespec": "10 0 18 24 12 SAT",
+                "calls": [{"method": "Switch.Set", "params": {"id": 1, "on": True}}],
+            },
+            {
+                "enable": True,
+                "timespec": "10 0 19 24 12 SAT",
+                "calls": [{"method": "Switch.Set", "params": {"id": 1, "on": False}}],
+            },
+            {
+                "enable": True,
+                "timespec": "10 0 20 24 12 SAT",
+                "calls": [{"method": "Switch.Set", "params": {"id": 1, "on": True}}],
+            },
+            {
+                "enable": True,
+                "timespec": "10 0 21 24 12 SAT",
+                "calls": [{"method": "Switch.Set", "params": {"id": 1, "on": False}}],
+            },
+        ]
+        self.assertEqual(expected, msg.get_payloads())
+
+
+class TestGoogleMessage(unittest.TestCase):
+    def test_message(self):
+        selection = Selection()
+        selection.add_timerange("2022-12-24 18:00", "2022-12-24 19:00")
+        msg = GoogleMessage(selection, summary="testing")
+        expected = [
+            {
+                "summary": "testing",
+                "start": {
+                    "dateTime": "2022-12-24T18:00:00",
+                    "timeZone": "Europe/Helsinki",
+                },
+                "end": {
+                    "dateTime": "2022-12-24T19:00:00",
+                    "timeZone": "Europe/Helsinki",
+                },
+                "reminders": {
+                    "useDefault": False,
+                    "overrides": [{"method": "popup", "minutes": 5}],
+                },
+            }
+        ]
+        print(msg)
+        self.assertEqual(expected, msg.get_payloads())
