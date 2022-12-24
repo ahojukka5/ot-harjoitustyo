@@ -199,6 +199,18 @@ class MessageService:
     def __init__(self):
         self._targets = {"shelly": ShellyMessage, "google-calendar": GoogleMessage}
 
+    def add_target(self, target, target_class):
+        """Add new target where to send message
+
+        Args:
+            target (str): name of the target
+            target_class: a class that inherits AbstractMessage and implements `send`
+
+        Returns:
+            Nothing.
+        """
+        self._targets[target] = target_class
+
     def create_message(self, selection, target, *args, **kwargs):
         """Create a new message.
 
