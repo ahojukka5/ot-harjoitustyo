@@ -9,7 +9,7 @@ from apiclient.discovery import build
 
 
 class AbstractMessage:
-    pass
+    """Abstract message."""
 
 
 class ShellyMessage(AbstractMessage):
