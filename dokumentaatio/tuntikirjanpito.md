@@ -17,4 +17,5 @@
 | 21.12. | 6    | ShellyMessage, Google Cal.    |
 | 22.12. | 9    | TUI käyttöliittymä            |
 | 23.12. | 10   | Pylint kuntoon + refactoring  |
-| yht    | 60   |                               |
+| 24.12. | 6    | Lisätty testikattavuutta      |
+| yht    | 66   |                               |
