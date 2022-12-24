@@ -36,7 +36,8 @@ def format_date(data, _):
 
 
 def _prepare_data(dataservice):
-    data = dataservice.get_data_as_dataframe().dropna(how="all").last("4d")
+    data = dataservice.get_data_as_dataframe()
+    data = data.dropna(how="all").last("4d")
     edata = _extended(data).tz_convert("Europe/Helsinki").fillna(0)
     edata.price *= 100
     scaling = edata.price.max() / edata.amount.max()
