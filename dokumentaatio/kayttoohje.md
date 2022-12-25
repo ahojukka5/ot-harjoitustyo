@@ -16,21 +16,21 @@ Ohjelma konfiguroidaan projektin hakemisossa olevalla `.env`-tiedostolla. Sellai
 
 ```python
 # mitä lähdettä käytetään hintatietojen saamiseen
-ENERGY_PRICE_SOURCE = "spot-hinta.fi"
+SAEHAEKKAE_ENERGY_PRICE_SOURCE = "spot-hinta.fi"
 # mitä lähdettä käytetään kulutustietojen saamiseen
-ENERGY_CONSUMPTION_SOURCE = "json"
-ENERGY_CONSUMPTION_FILE = "data/generic-data.json"
+SAEHAEKKAE_ENERGY_CONSUMPTION_SOURCE = "json"
+SAEHAEKKAE_ENERGY_CONSUMPTION_FILE = "data/generic-data.json"
 # tietokannan nimi
-DB_FILE = "db.csv"
+SAEHAEKKAE_DB_FILE = "db.csv"
 # Shellyn ip-osoite lähiverkossa
-SHELLY_IP = "192.168.1.30"
+SAEHAEKKAE_SHELLY_IP = "192.168.1.30"
 # google credentials -tiedosto
-GOOGLE_CREDENTIALS_FILE = "google_credentials.json"
+SAEHAEKKAE_GOOGLE_CREDENTIALS_FILE = "google_credentials.json"
 # googlen kalenterin id-numero
-GOOGLE_CALENDAR_ID = "<63 merkkiä sotkua>@group.calendar.google.com"
+SAEHAEKKAE_GOOGLE_CALENDAR_ID = "<63 merkkiä sotkua>@group.calendar.google.com"
 ```
 
-`ENERGY_CONSUMPTION_SOURCE` määrittää kuinka kulutustiedot saadaan. Minulla
+`SAEHAEKKAE_ENERGY_CONSUMPTION_SOURCE` määrittää kuinka kulutustiedot saadaan. Minulla
 itselläni kulutustiedot saa sähköyhtiön nettisivuilta export-nappulalla
 Excel-taulukkoon, josta rakentelen erillisellä työkalulla json-tiedoston. Jos
 haluat hoitaa asian vastaavanlaisesti, niin json-tiedoston muoto on
@@ -72,7 +72,7 @@ ENERGY_CONSUMPTION_SOURCE = "datahub"
 ENERGY_CONSUMPTION_FILE = "data/consumption.csv"
 ```
 
-`SHELLY_IP` on lähiverkossa olevan Shelly-releen ip-osoite, jos sellaista haluaa
+`SAEHAEKKAE_SHELLY_IP` on lähiverkossa olevan Shelly-releen ip-osoite, jos sellaista haluaa
 ohjata. Jos `curl http://${SHELLY_IP}/rpc/GetStatus` palauttaa jotakin, olet
 löytänyt oikean ip-osoitteen.
 
@@ -134,7 +134,7 @@ joka on tämän tyyppinen:
 Lisäksi tarvitaan kalenteri-id. Oma ehdotukseni on, että yksi perheenjäsen luo
 uuden kalenterin omavalintaisella nimellä ja jakaa sen perheen kesken.
 Autentikoinnin jälkeen ohjelma printtaa kalenterien nimet ja id-numerot. Laita
-id-numero `.env`-tiedoston `GOOGLE_CALENDAR_ID`-muuttujaan. 
+id-numero `.env`-tiedoston `SAEHAEKKAE_GOOGLE_CALENDAR_ID`-muuttujaan. 
 
 ## Ohjelman käyttäminen
 
