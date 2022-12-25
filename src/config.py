@@ -20,12 +20,13 @@ def _getenv(env_name, default, prefix="SAEHAEKKAE"):
 
 
 DB_FILE = _getenv("DB_FILE", "db.csv")
+ENERGY_PRICE_SOURCE = _getenv("ENERGY_PRICE_SOURCE", "spot-hinta.fi")
+ENERGY_CONSUMPTION_SOURCE = _getenv("ENERGY_CONSUMPTION_SOURCE", "json")
+ENERGY_CONSUMPTION_FILE = _getenv("ENERGY_CONSUMPTION_FILE", "data/generic-data.json")
 
-# Options, "test", "local", "internet"
-ENERGY_PRICE_SOURCE = _getenv("ENERGY_PRICE_SOURCE", "test")
-ENERGY_PRICE_URI = _getenv("PRICE_URI", "https://api.spot-hinta.fi/TodayAndDayForward")
-ENERGY_PRICE_FILE = _getenv("PRICE_FILE", "data/prices.json")
+# Google settings, these are needed to make google calendar working!
+GOOGLE_CREDENTIALS_FILE = _getenv("GOOGLE_CREDENTIALS_FILE", "google_credentials.json")
+GOOGLE_CALENDAR_ID = _getenv("GOOGLE_CALENDAR_ID", None)
 
-# Options, "test", "local"
-ENERGY_CONSUMPTION_SOURCE = _getenv("ENERGY_CONSUMPTION_SOURCE", "test")
-ENERGY_CONSUMPTION_FILE = _getenv("ENERGY_CONSUMPTION_FILE", "data/consumption.csv")
+# Shelly ip
+SHELLY_IP = _getenv("SHELLY_IP", "192.168.1.30")
