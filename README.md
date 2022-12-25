@@ -40,7 +40,7 @@ tekemiseen:
 
 [Työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)
 
-[Release](https://github.com/ahojukka5/ot-harjoitustyo/releases/tag/viikko6)
+[Release](https://github.com/ahojukka5/ot-harjoitustyo/releases/tag/0.1.0)
 
 [Changelog](dokumentaatio/changelog.md)
 
