@@ -83,8 +83,8 @@ def google_auth(args):
     scopes = ["https://www.googleapis.com/auth/calendar"]
     flow = InstalledAppFlow.from_client_secrets_file(args.secrets_file, scopes=scopes)
     token = flow.run_local_server()
-    with open(args.credentials_file, "w", encoding="utf8") as fh:
-        fh.write(token.to_json())
+    with open(args.credentials_file, "w", encoding="utf8") as file:
+        file.write(token.to_json())
     print(f"The following data is written to {args.credentials_file}:")
     print(json.dumps(json.loads(token.to_json()), indent=4))
     print("Calendar id numbers")
