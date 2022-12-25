@@ -69,23 +69,36 @@ class DataService:
         """
         self._sources[source] = source_class
 
-    def update_db(self, source, *args, **kwargs):
-        """Update database from a source.
+    def get_source(self, source, *args, **kwargs):
+        """Get source.
 
         Args:
-            source: a string identifying source.
+            source (str): name of the source
+
+        Returns:
+            Source object
 
         Raises:
             KeyError, if source is not "registered".
 
         Notes:
-            This method passes any extra arguments and keywords to a function
-            which is identified by `source`.
+            Any additional arguments and keyword arguments are passed to constructor
         """
         if source not in self._sources:
             raise KeyError(f"Unable to update using source {source}: unknown source")
         source = self._sources[source](self._db, *args, **kwargs)
-        return source.update()
+        return source
+
+    def update_db(self, source, *args, **kwargs):
+        """Update database from a source.
+
+        Args:
+            source: a source object
+
+        Notes:
+            This method passes any extra arguments and keywords to a source.update()
+        """
+        return source.update(*args, **kwargs)
 
     def get_data_as_dataframe(self):
         """Return the whole database as a Pandas DataFrame for a serious data analysis."""
