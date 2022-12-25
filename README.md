@@ -12,6 +12,8 @@ harjoitustyö.
 
 [Käyttöohje](dokumentaatio/kayttoohje.md)
 
+[Testaus](dokumentaatio/testaus.md)
+
 [Työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)
 
 [Release](https://github.com/ahojukka5/ot-harjoitustyo/releases/tag/viikko6)
