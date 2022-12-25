@@ -49,7 +49,8 @@ def update_db(args):
     """Update database."""
     print("Update database")
     dataservice = DataService()
-    dataservice.load_db(config.DB_FILE)
+    if os.path.exists(config.DB_FILE):
+        dataservice.load_db(config.DB_FILE)
     update_sources(dataservice)
     dataservice.save_db(config.DB_FILE)
 
@@ -58,7 +59,8 @@ def start_tui(args):
     """Saehaekkae textual user interface starting command."""
     print("Saehaekkae -- starting textual user interface")
     dataservice = DataService()
-    dataservice.load_db(config.DB_FILE)
+    if os.path.exists(config.DB_FILE):
+        dataservice.load_db(config.DB_FILE)
     if not args.no_update:
         update_sources(dataservice)
     datetimepicker = DateTimePicker()
@@ -70,7 +72,8 @@ def start_gui(args):
     """Saehaekkae graphical user interface starting command."""
     print("Saehaekkae -- starting graphical user interface")
     dataservice = DataService()
-    dataservice.load_db(config.DB_FILE)
+    if os.path.exists(config.DB_FILE):
+        dataservice.load_db(config.DB_FILE)
     if not args.no_update:
         update_sources(dataservice)
     datetimepicker = DateTimePicker()
