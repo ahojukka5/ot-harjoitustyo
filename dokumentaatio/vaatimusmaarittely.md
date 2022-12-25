@@ -78,6 +78,8 @@ puitteissa keretty tehdä.
       kalenteriin tekstikäyttöliittymästä
 - [x] käyttäjä voi ladata oma.datahub.fi palvelusta kulutustiedot ja ladata ne
       ohjelmaan sekä seurata aiempaa kulutushistoriaa
+- [x] käyttäjä voi kirjoittaa hinta- ja kulutustietoja geneeriseen json-formaattiin
+      ja ladata ne ohjelman tietokantaan.
 - [x] käyttäjä voi verrata sähkön historiallista hintaa ja kulutusta ja todeta
       että onko hinnan optimointi ollut onnistunutta vai ei
 - [x] käyttäjä voi laajentaa ohjelman toiminnallisuutta määrittelemällä oman
