@@ -39,7 +39,7 @@ class Selection:
 
     def __getitem__(self, time):
         if isinstance(time, str):
-            time = dateutil.parser.parse(time)
+            time = dateutil.parser.parse(time).astimezone()
         return self._timeranges[time]
 
     def __iter__(self):
@@ -66,7 +66,7 @@ class Selection:
             True if time is inside, false otherwise.
         """
         if isinstance(time, str):
-            time = dateutil.parser.parse(time)
+            time = dateutil.parser.parse(time).astimezone()
         for timerange in self._timeranges.values():
             if timerange.start <= time < timerange.end:
                 return True
@@ -83,9 +83,9 @@ class Selection:
             Nothing.
         """
         if isinstance(start, str):
-            start = dateutil.parser.parse(start)
+            start = dateutil.parser.parse(start).astimezone()
         if isinstance(end, str):
-            end = dateutil.parser.parse(end)
+            end = dateutil.parser.parse(end).astimezone()
         assert isinstance(start, datetime.datetime)
         assert isinstance(end, datetime.datetime)
         self._timeranges[start] = Selection.TimeRange(start, end)
