@@ -160,6 +160,10 @@ yksinkertaista. Ensin valitaan 1-N kappaletta ajanjaksoja komennolla `v pvm
 klo_start-klo_end`, jonka jälkeen ohjataan relettä x komennolla `s x`.
 Komennolla `g` voidaan laittaa Googleen kalenterimerkintä.
 
+Käyttöliittymät päivittävät hintatiedot automaattisesti, mutta eivät tallenna
+tuloksia. Tietokantojen tallentaminen tehdään eksplisiittisesti komennolla
+`poetry run invoke update`.
+
 ## Skriptaaminen ja toiminnallisuuksien laajentaminen
 
 Haluat kuitenkin. Ehkäpä sähköyhtiösi tarjoaa kulutustietoa jossakin eri
