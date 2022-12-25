@@ -3,7 +3,7 @@ from invoke import task
 
 @task
 def start(ctx):
-    ctx.run("python3 src/gui.py", pty=True)
+    ctx.run("python3 src/saehaekkae.py gui", pty=True)
 
 
 @task
