@@ -17,6 +17,11 @@ def test(ctx):
 
 
 @task
+def update(ctx):
+    ctx.run("python3 src/saehaekkae.py update", pty=True)
+
+
+@task
 def coverage(ctx):
     ctx.run("coverage run --branch -m pytest src", pty=True)
 
@@ -37,4 +42,3 @@ def auth(ctx):
         "python3 src/saehaekkae.py auth --secrets-file=client_secrets.json --credentials-file=google_credentials.json",
         pty=True,
     )
-
