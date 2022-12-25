@@ -47,7 +47,7 @@ class Selection:
 
     def __repr__(self):
         strings = []
-        for timerange in self.get_timeranges():
+        for timerange in self.get_timeranges().values():
             start = timerange.start.isoformat()
             end = timerange.end.isoformat()
             strings.append(f"{start} - {end}")
