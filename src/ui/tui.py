@@ -1,6 +1,7 @@
 import datetime
 import os
 import config
+import requests
 
 
 class IO:
@@ -152,7 +153,11 @@ class TUI:
         out(f"Viesti Shelly-releelle, payload:\n{msg1}")
         if config.SHELLY_IP is None:
             out("Asetus SHELLY_IP puuttuu.")
-        status = msg.send_message(msg1, config.SHELLY_IP)
+        try:
+            status = msg.send_message(msg1, config.SHELLY_IP)
+        except requests.exceptions.ConnectionError as err:
+            out(f"Viestin lähetys ei onnistunut: {str(err)}")
+            return
         out(f"Shelly-viesti lähetetty: {status}")
         self.clear()
 
