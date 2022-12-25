@@ -28,7 +28,8 @@ def start_tui(args):
     dataservice.load_db(config.DB_FILE)
     if not args.no_update:
         print("Updating prices")
-        dataservice.update_db(source="spot-hinta.fi")
+        source = dataservice.get_source("spot-hinta.fi")
+        dataservice.update_db(source)
     datetimepicker = DateTimePicker()
     messageservice = MessageService()
     return TUI(dataservice, datetimepicker, messageservice).mainloop()
