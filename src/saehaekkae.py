@@ -13,6 +13,7 @@ looking at graphs and calculating certain key figures (how well did I manage to
 optimize?)
 """
 
+import os
 import sys
 import argparse
 
@@ -21,15 +22,30 @@ from services import DataService, DateTimePicker, MessageService
 from ui import TUI, GUI
 
 
+def update_sources(dataservice):
+    """Update sources."""
+    print("Updating prices")
+    source_name = config.ENERGY_PRICE_SOURCE
+    source = dataservice.get_source(source_name)
+    price, amount = dataservice.update_db(source)
+    print(f"Updated {price} price information")
+    source_name = config.ENERGY_CONSUMPTION_SOURCE
+    local_file = config.ENERGY_CONSUMPTION_FILE
+    if os.path.exists(local_file):
+        source = dataservice.get_source(source_name, local_file=local_file)
+        price, amount = dataservice.update_db(source)
+        print(f"Updated {amount} consumption information from local file {local_file}")
+    else:
+        print(f"Failed to update consumption: file {local_file} does not exist")
+
+
 def start_tui(args):
     """Saehaekkae textual user interface starting command."""
     print("Saehaekkae -- starting textual user interface")
     dataservice = DataService()
     dataservice.load_db(config.DB_FILE)
     if not args.no_update:
-        print("Updating prices")
-        source = dataservice.get_source("spot-hinta.fi")
-        dataservice.update_db(source)
+        update_sources(dataservice)
     datetimepicker = DateTimePicker()
     messageservice = MessageService()
     return TUI(dataservice, datetimepicker, messageservice).mainloop()
@@ -41,8 +57,7 @@ def start_gui(args):
     dataservice = DataService()
     dataservice.load_db(config.DB_FILE)
     if not args.no_update:
-        print("Updating prices")
-        dataservice.update_db(source="spot-hinta.fi")
+        update_sources(dataservice)
     datetimepicker = DateTimePicker()
     messageservice = MessageService()
     return GUI(dataservice, datetimepicker, messageservice).mainloop()
