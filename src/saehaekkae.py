@@ -16,6 +16,12 @@ optimize?)
 import os
 import sys
 import argparse
+import json
+
+from google_auth_oauthlib.flow import InstalledAppFlow
+
+# pylint: disable=E0401
+from apiclient.discovery import build
 
 import config
 from services import DataService, DateTimePicker, MessageService
@@ -63,6 +69,24 @@ def start_gui(args):
     return GUI(dataservice, datetimepicker, messageservice).mainloop()
 
 
+def google_auth(args):
+    """Authenticate to Google Calendar API"""
+    scopes = ["https://www.googleapis.com/auth/calendar"]
+    flow = InstalledAppFlow.from_client_secrets_file(args.secrets_file, scopes=scopes)
+    token = flow.run_local_server()
+    with open(args.credentials_file, "w", encoding="utf8") as fh:
+        fh.write(token.to_json())
+    print(f"The following data is written to {args.credentials_file}:")
+    print(json.dumps(json.loads(token.to_json()), indent=4))
+    print("Calendar id numbers")
+    service = build("calendar", "v3", credentials=token)
+    result = service.calendarList().list().execute()
+    for calendar in result["items"]:
+        calendar_id = calendar["id"]
+        calendar_summary = calendar["summary"]
+        print(f"{calendar_summary} (id: {calendar_id})")
+
+
 def main():
     """Saehaekkae main entry point."""
     parser = argparse.ArgumentParser()
@@ -70,6 +94,7 @@ def main():
     subparsers.required = True
     gui = subparsers.add_parser("gui", help="Start graphical user interface")
     tui = subparsers.add_parser("tui", help="Start textual user interface")
+    auth = subparsers.add_parser("auth", help="Authenticate to Google calendar API")
 
     parser.add_argument(
         "--no-update",
@@ -77,8 +102,12 @@ def main():
         action="store_true",
     )
 
+    auth.add_argument("--secrets-file", required=True, help="Client secrets file")
+    auth.add_argument("--credentials-file", required=True, help="Credentials file")
+
     gui.set_defaults(func=start_gui)
     tui.set_defaults(func=start_tui)
+    auth.set_defaults(func=google_auth)
     args = parser.parse_args()
     return args.func(args)
 
