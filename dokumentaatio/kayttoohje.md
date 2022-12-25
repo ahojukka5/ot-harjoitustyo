@@ -303,9 +303,9 @@ class GoogleMessage(AbstractMessage):
 Rekisteröinti:
 
 ```python
-from saehaekkae.service import DataService
-ds = DataService()
-ds.add_target("custom-target", CustomTarget)
+from saehaekkae.service import MessageService
+ms = MessageService()
+ms.add_target("custom-target", CustomTarget)
 ```
 
 Periaatteessa on mahdollista tehdä täysin automaattinen skripti esimerkiksi
