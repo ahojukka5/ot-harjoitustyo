@@ -16,14 +16,22 @@
 - Lisätty linttaus (`poetry run invoke lint`)
 - Lisätty arkkitehtuurikuvaus
 
-# Viikko 5
+## Viikko 5
 
 - Toteutettu tuntien valinta: käyttäjä voi pylväsdiagramin pylvästä klikkaamalla
   valita potentiaaliset tunnit.
 
-# Viikko 6
+## Viikko 6
 
 - Dokumentoitu kauttaaltaan docstringeillä.
 - Implementoitu fetcher käyttäjädatalle <oma.datahub.fi> palvelua ajatellen.
 - Implementoitu widget kulutusdatan visualisointiin.
 - Paranneltu pörssihinta-widgetin ulkoasua.
+
+## Viikko 7-8
+
+- Lisätty testikattavuutta
+- Tehty viestien lähetystoiminnallisuus: ShellyMessage ja GoogleMessage
+- Tehty komentorivikäyttöliittymä
+- Tehty DateTimePicker
+- Refactoroitu koodia, tehty DataService
