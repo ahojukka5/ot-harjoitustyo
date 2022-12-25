@@ -1,7 +1,7 @@
 import os
 import csv
 import json
-import warnings
+from warnings import warn
 import requests
 import dateutil.parser
 from entities import Record
@@ -20,21 +20,25 @@ class PriceSource(AbstractSource):
 
     url = "https://api.spot-hinta.fi/TodayAndDayForward"
 
-    def __init__(self, database):
+    def __init__(self, database, data=None):
+        self._rows = data
         self._db = database
         self.price_updated = 0
         self.consumption_updated = 0
 
+    def get_rows(self):
+        if self._rows:
+            return self._rows
+        response = requests.get(PriceSource.url, timeout=10)
+        if response.status_code != 200:
+            warn("Unable to fetch prices from {url}: code {response.status_code}")
+            return (self.price_updated, self.consumption_updated)
+        return response.json()
+
     def update(self):
         """Update price data."""
-        response = requests.get(PriceSource.url, timeout=10)
-        status_code = response.status_code
-        if status_code != 200:
-            warnings.warn("Unable to update prices from {url}: code {status_code}")
-            return (self.price_updated, self.consumption_updated)
-        rows = response.json()
-        for row in rows:
-            time = dateutil.parser.parse(row["DateTime"])
+        for row in self.get_rows():
+            time = dateutil.parser.parse(row["DateTime"]).astimezone()
             price = row["PriceNoTax"]
             record = Record(time, price=price)
             price, amount = self._db.add_or_update_record(record)
