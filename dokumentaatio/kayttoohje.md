@@ -344,7 +344,8 @@ myös, mutta ne perustuvat hieman erilaiseen tekniikkaan. Home Assistant lähett
 wifi-verkossa päälle-komennon tiettyyn kellonaikaan, kun taas Sähäkkä lähettää
 json-viestin joka ohjelmoi Shellyn omaa kellokytkintä. Toisin sanoen, jos
 wifi-verkko kyykkää tai Shelly putoaa wifistä (mitä ne ovat varsin hyviä
-tekemään), Home Assistantin ajatus ei toimi, mutta Sähällä tehty ajastus toimii.
+tekemään), Home Assistantin ajatus ei toimi, mutta Sähäkällä tehty ajastus
+toimii.
 
 ## Lopuksi
 
