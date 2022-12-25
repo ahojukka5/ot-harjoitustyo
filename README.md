@@ -1,5 +1,7 @@
 # Saehaekkae - saehkoen saeaelimaetoen saeaestaejae
 
+![](dokumentaatio/figs/screenshot.png)
+
 Saehaekkae (lue: "sähäkkä") on ohjelma, jonka tarkoituksena on pienentää
 käyttäjän sähkölaskua. Sovellus on Helsingin yliopiston ohjelmistotekniikan
 harjoitustyö.
@@ -60,8 +62,6 @@ käyttöliittymän, `start-tui` käynnistää tekstikäyttöliittymän. Ohjelmal
 lisätä kalenteriin muistutuksia sähkön hinnasta. Se edellyttää googlen
 autentikointia, eikä ole erityisen helppoa. Ohjeet löytyvät käyttöohjeesta.
 Autentikointi tehdään komennolla `poetry run invoke auth`.
-
-![](dokumentaatio/figs/screenshot.png)
 
 ## Komentorivitoiminnot
 
