@@ -102,7 +102,11 @@ class TUI:
         """Pick some time range using DateTimePicker."""
         out = self.get_io().print
         picker = self.get_datetimepicker()
-        start, end = timerange.split("-")
+        try:
+            start, end = timerange.split("-")
+        except ValueError:
+            print("Kellonaika annettu virheellisesti.")
+            return
         out(f"Valitaan päivä {date}, ajanjakso {timerange}")
         picker.pick_between(f"{date} {start}:00", f"{date} {end}:00")
 
@@ -167,7 +171,10 @@ class TUI:
             cmd = args.pop(0)
             out()
             if cmd in self._commands:
-                self._commands[cmd](*args)
+                try:
+                    self._commands[cmd](*args)
+                except TypeError as err:
+                    out(f"Virheellinen syöte: {str(err)}")
             else:
                 out("Virheellinen komento!")
         out("Näkemiin!")
