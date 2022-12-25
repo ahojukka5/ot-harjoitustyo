@@ -1,5 +1,4 @@
 import unittest
-from dateutil import parser
 from services import DateTimePicker
 
 
