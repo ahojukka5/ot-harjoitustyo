@@ -45,6 +45,15 @@ def update_sources(dataservice):
         print(f"Failed to update consumption: file {local_file} does not exist")
 
 
+def update_db(args):
+    """Update database."""
+    print("Update database")
+    dataservice = DataService()
+    dataservice.load_db(config.DB_FILE)
+    update_sources(dataservice)
+    dataservice.save_db(config.DB_FILE)
+
+
 def start_tui(args):
     """Saehaekkae textual user interface starting command."""
     print("Saehaekkae -- starting textual user interface")
@@ -95,6 +104,7 @@ def main():
     gui = subparsers.add_parser("gui", help="Start graphical user interface")
     tui = subparsers.add_parser("tui", help="Start textual user interface")
     auth = subparsers.add_parser("auth", help="Authenticate to Google calendar API")
+    update = subparsers.add_parser("update", help="Update database")
 
     parser.add_argument(
         "--no-update",
@@ -108,6 +118,7 @@ def main():
     gui.set_defaults(func=start_gui)
     tui.set_defaults(func=start_tui)
     auth.set_defaults(func=google_auth)
+    update.set_defaults(func=update_db)
     args = parser.parse_args()
     return args.func(args)
 
