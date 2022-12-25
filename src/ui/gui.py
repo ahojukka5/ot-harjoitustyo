@@ -40,8 +40,11 @@ def _prepare_data(dataservice):
     data = data.dropna(how="all").last("4d")
     edata = _extended(data).tz_convert("Europe/Helsinki").fillna(0)
     edata.price *= 100
-    scaling = edata.price.max() / edata.amount.max()
-    scaling = math.floor(scaling)
+    max_price = edata.price.max()
+    max_consumption = edata.amount.max()
+    scaling = 1.0
+    if max_consumption > 0:
+        scaling = math.floor(max_price / max_consumption)
     edata.amount *= scaling
     return edata, scaling
 
